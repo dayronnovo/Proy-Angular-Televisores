@@ -1,28 +1,25 @@
+<h3 class="text-center">{{ cliente?.nombre }}</h3>
+<hr />
+
 <div class="card border-primary mb-3">
-  <div class="card-header">Clientes</div>
   <div class="card-body text-primary">
-    <h5 class="card-title">Listado de Clientes</h5>
+    <h5 class="card-title">Listado de Multimedias</h5>
 
     <table class="table table-striped table-bordered">
       <thead>
         <tr>
           <th>id</th>
           <th>nombre</th>
-          <th>detalle</th>
+          <th>archivo</th>
+          <th>time_to_start</th>
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let cliente of clientes">
-          <td>{{ cliente.id }}</td>
-          <td>{{ cliente.nombre }}</td>
-          <td>
-            <a
-              class="btn btn-primary"
-              [routerLink]="['/cliente/detalles', cliente.id]"
-            >
-              Detalles
-            </a>
-          </td>
+        <tr *ngFor="let multimedia of multimedias">
+          <td>{{ multimedia.id }}</td>
+          <td>{{ multimedia.nombre }}</td>
+          <td>{{ multimedia.archivo }}</td>
+          <td>{{ multimedia.time_to_start }}</td>
         </tr>
       </tbody>
     </table>

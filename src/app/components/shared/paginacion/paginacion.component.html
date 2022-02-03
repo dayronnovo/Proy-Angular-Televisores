@@ -1,0 +1,50 @@
+<ul *ngIf="paginas.length > 0" class="pagination">
+  <!-- << Pasar a la pagina anterior -->
+
+  <li class="page-item" *ngIf="paginador.number > 0">
+    <a class="page-link mouse" (click)="paginaAnterior()">&laquo;</a>
+  </li>
+
+  <!-- Ir a la primera pagina (principio) -->
+
+  <li [ngClass]="paginador.number == 0 ? 'disabled page-item' : 'page-item'">
+    <a class="page-link mouse" (click)="primeraPagina()">Primera</a>
+  </li>
+
+  <!-- Numeracion de paginas -->
+
+  <li
+    *ngFor="let pagina of paginas"
+    class="page-item"
+    [ngClass]="pagina - 1 == paginador.number ? 'active' : ''"
+  >
+    <span class="page-link mouse" *ngIf="pagina - 1 == paginador.number"
+      > {{ pagina }} </span
+    >
+
+    <a
+      class="page-link mouse"
+      *ngIf="pagina - 1 != paginador.number"
+      (click)="irAlaPaginaNumeracion(pagina)"
+      >{{ pagina }}</a
+    >
+  </li>
+
+  <!-- Ir a la ultima pagina (final) -->
+
+  <li
+    [ngClass]="
+      paginador.number == paginador.totalPages - 1
+        ? 'disabled page-item'
+        : 'page-item'
+    "
+  >
+    <a class="page-link mouse" (click)="ultimaPagina()">Ultima</a>
+  </li>
+
+  <!-- >> Pasar a la proxima pagina -->
+
+  <li class="page-item" *ngIf="paginador.number < paginador.totalPages - 1">
+    <a class="page-link mouse" (click)="paginaSiguiente()">&raquo;</a>
+  </li>
+</ul>
