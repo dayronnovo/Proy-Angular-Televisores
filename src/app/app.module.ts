@@ -10,6 +10,8 @@ import { PaginacionComponent } from './components/shared/paginacion/paginacion.c
 // Rutas
 import { FeatureRoutingModule } from './app-routing.module';
 import { DetallesClienteComponent } from './components/detalles-cliente/detalles-cliente.component';
+import { MultimediaComponent } from './components/multimedia/multimedia.component';
+import { NgDropFilesDirective } from './directivas/ng-drop-files.directive';
 
 @NgModule({
   declarations: [
@@ -18,6 +20,8 @@ import { DetallesClienteComponent } from './components/detalles-cliente/detalles
     ClientesComponent,
     PaginacionComponent,
     DetallesClienteComponent,
+    MultimediaComponent,
+    NgDropFilesDirective,
   ],
   imports: [BrowserModule, FeatureRoutingModule, HttpClientModule],
   providers: [],

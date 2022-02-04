@@ -5,6 +5,7 @@ import { NgModule } from '@angular/core';
 // import { PageNotFoundComponent } from './';
 import { ClientesComponent } from './components/clientes/clientes.component';
 import { DetallesClienteComponent } from './components/detalles-cliente/detalles-cliente.component';
+import { MultimediaComponent } from './components/multimedia/multimedia.component';
 
 const routes: Routes = [
   { path: 'clientes', component: ClientesComponent },
@@ -14,7 +15,7 @@ const routes: Routes = [
     path: 'cliente/detalles/:id/page/:page',
     component: DetallesClienteComponent,
   },
-  // { path: 'path3', component: Name3Component },
+  { path: 'multimedia/cliente/:id', component: MultimediaComponent },
   { path: '**', pathMatch: 'full', redirectTo: 'clientes' },
   // { path: '**', component: PageNotFoundComponent },
 ];

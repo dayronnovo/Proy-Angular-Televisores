@@ -3,6 +3,8 @@ import { Cliente } from '../../models/cliente';
 import { ActivatedRoute } from '@angular/router';
 import { MultimediaService } from '../../services/multimedia.service';
 import { Multimedia } from '../../models/multimedia';
+import { TelevisorService } from '../../services/televisor.service';
+import { Televisor } from '../../models/televisores';
 
 @Component({
   selector: 'app-detalles-cliente',
@@ -11,30 +13,30 @@ import { Multimedia } from '../../models/multimedia';
 })
 export class DetallesClienteComponent implements OnInit {
   cliente: Cliente;
-  multimedias: Multimedia[] = [];
+  televisores: Televisor[] = [];
   paginador: any;
   ruta: string;
 
   constructor(
     private activatedRoute: ActivatedRoute,
-    private multimediaService: MultimediaService
+    private televisorService: TelevisorService
   ) {
-    this.getMultimediaByClienteId();
+    this.getTelevisoresByClienteId();
   }
 
   ngOnInit(): void {}
 
-  public getMultimediaByClienteId() {
+  public getTelevisoresByClienteId() {
     this.activatedRoute.params.subscribe((params) => {
       let id: number = +params['id'];
       let page: number = +params['page'];
 
       if (!page) page = 0;
-      this.multimediaService
-        .getMultimediaByClienteId(id, page)
+      this.televisorService
+        .getTelevisoresByClienteIdWithPagination(id, page)
         .subscribe((response: any) => {
           this.cliente = response.content.cliente as Cliente;
-          this.multimedias = response.content.multimedias as Multimedia[];
+          this.televisores = response.content.televisores as Televisor[];
           this.paginador = response.pageable;
           this.ruta = `cliente/detalles/${id}`;
         });
