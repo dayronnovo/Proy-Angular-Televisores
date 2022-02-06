@@ -5,6 +5,7 @@ import { Televisor } from '../../models/televisores';
 import { MultimediaService } from '../../services/multimedia.service';
 import { HttpEventType } from '@angular/common/http';
 import { FileItem } from '../../models/file_item';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-multimedia',
@@ -12,31 +13,24 @@ import { FileItem } from '../../models/file_item';
   styles: [],
 })
 export class MultimediaComponent implements OnInit {
-  televisores: Televisor[] = [];
   // loading: boolean = true;
 
   archivos: FileItem[] = [];
   estaSobreDrop: boolean = false;
+  televisores: Televisor[] = [];
+  forma: FormGroup;
 
   constructor(
     private televisorService: TelevisorService,
     private multimediaService: MultimediaService,
-    private activatedRoute: ActivatedRoute
-  ) {}
-
-  ngOnInit(): void {
+    private activatedRoute: ActivatedRoute,
+    private fb: FormBuilder
+  ) {
     this.obtenerTelevisores();
+    this.crearFormulario();
   }
 
-  public cargarArchivos() {
-    this.archivos.forEach((archivo) => {
-      this.cargarArchivosHelper(archivo);
-    });
-  }
-
-  public limpiarArchivos() {
-    this.archivos = [];
-  }
+  ngOnInit(): void {}
 
   obtenerTelevisores() {
     this.activatedRoute.params.subscribe((params) => {
@@ -56,6 +50,15 @@ export class MultimediaComponent implements OnInit {
     });
   }
 
+  public cargarArchivos() {
+    this.archivos.forEach((archivo) => {
+      this.cargarArchivosHelper(archivo);
+    });
+  }
+
+  public limpiarArchivos() {
+    this.archivos = [];
+  }
   private cargarArchivosHelper(archivo: FileItem) {
     // console.log(this.nombreFoto.length);
     this.multimediaService
@@ -69,5 +72,21 @@ export class MultimediaComponent implements OnInit {
           // Swal.fire('Upload', `${response.mensaje}`, 'success');
         }
       });
+  }
+
+  // Formulario Select
+  private crearFormulario() {
+    this.forma = this.fb.group({
+      ids: ['', Validators.required],
+    });
+  }
+
+  public guardar() {
+    if (this.forma.invalid) {
+      Object.values(this.forma.controls).forEach((control) => {
+        control.markAsTouched();
+      });
+    }
+    return;
   }
 }

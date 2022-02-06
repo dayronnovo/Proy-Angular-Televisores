@@ -51,3 +51,35 @@
     </table>
   </div>
 </div>
+<div class="col-12">
+  <div class="form-group row">
+    <label class="col-2 col-form-label">Televisores</label>
+    <div class="col-12">
+      <form [formGroup]="forma" (ngSubmit)="guardar()">
+        <div class="col-12">
+          <select class="form-control" formControlName="ids">
+            <option value="">Seleccione los televisores</option>
+            <option
+              *ngFor="let televisor of televisores"
+              [value]="televisor.id"
+            >
+              {{ televisor.ubicacion }}
+            </option>
+          </select>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div class="col-12">
+  <pre>
+    Estado del Formulario: {{ forma.valid }}
+    Status: {{ forma.status }}
+    </pre
+  >
+  <pre>
+    {{ forma.value | json }}
+    </pre
+  >
+</div>
