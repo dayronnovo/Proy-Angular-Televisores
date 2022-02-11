@@ -5,12 +5,13 @@ import { Televisor } from '../../models/televisores';
 import { MultimediaService } from '../../services/multimedia.service';
 import { HttpEventType } from '@angular/common/http';
 import { FileItem } from '../../models/file_item';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Cliente } from '../../models/cliente';
 
 @Component({
   selector: 'app-multimedia',
   templateUrl: './multimedia.component.html',
-  styles: [],
+  styleUrls: ['./multimedia.component.css'],
 })
 export class MultimediaComponent implements OnInit {
   // loading: boolean = true;
@@ -18,6 +19,7 @@ export class MultimediaComponent implements OnInit {
   archivos: FileItem[] = [];
   estaSobreDrop: boolean = false;
   televisores: Televisor[] = [];
+  cliente: Cliente;
   forma: FormGroup;
 
   constructor(
@@ -38,8 +40,8 @@ export class MultimediaComponent implements OnInit {
       // console.log(id);
       this.televisorService.getTelevisoresByClienteId(id).subscribe(
         (response) => {
-          this.televisores = response;
-          console.log(this.televisores);
+          this.cliente = response.cliente as Cliente;
+          this.televisores = response.televisores as Televisor[];
           // this.verFoto();
           // this.loading = false;
         },
@@ -60,9 +62,15 @@ export class MultimediaComponent implements OnInit {
     this.archivos = [];
   }
   private cargarArchivosHelper(archivo: FileItem) {
-    // console.log(this.nombreFoto.length);
+    if (this.forma.invalid) {
+      Object.values(this.forma.controls).forEach((control) => {
+        control.markAsTouched();
+      });
+      return;
+    }
+
     this.multimediaService
-      .cargarArchivos(archivo.archivo)
+      .cargarArchivos(archivo.archivo, this.forma.getRawValue())
       .subscribe((event) => {
         if (event.type === HttpEventType.UploadProgress) {
           archivo.progreso = Math.round((event.loaded / event.total) * 100);
@@ -77,8 +85,12 @@ export class MultimediaComponent implements OnInit {
   // Formulario Select
   private crearFormulario() {
     this.forma = this.fb.group({
-      ids: ['', Validators.required],
+      ids: this.fb.array([], Validators.required),
     });
+  }
+
+  get getIdsFormArray(): FormArray {
+    return this.forma.get('ids') as FormArray;
   }
 
   public guardar() {
@@ -86,7 +98,29 @@ export class MultimediaComponent implements OnInit {
       Object.values(this.forma.controls).forEach((control) => {
         control.markAsTouched();
       });
+      return;
     }
-    return;
+  }
+
+  public onCheckboxChange(option, event) {
+    if (event.target.checked) {
+      this.getIdsFormArray.push(this.fb.control(option));
+    } else {
+      let arreglo: any[] = this.getIdsFormArray.getRawValue();
+      let num: number = arreglo.indexOf(option);
+      this.getIdsFormArray.removeAt(num);
+    }
+  }
+
+  public prevenirImagenOpen(event) {
+    event.preventDefault();
+    event.stopPropagation();
+  }
+
+  public validar(campo: string): boolean {
+    return this.forma.get(campo).invalid && this.forma.get(campo).touched;
+  }
+  public mensajeRequerido(campo: string): boolean {
+    return this.forma.get(campo).errors.required;
   }
 }

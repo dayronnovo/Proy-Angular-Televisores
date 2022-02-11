@@ -1,30 +1,18 @@
 <!-- <div *ngIf="!loading" class="container animated fadeIn"> -->
-
-<div class="row">
-  <div class="col-4">
-    <h3>Seleccione archivos</h3>
-    <div
-      appNgDropFiles
-      [archivos]="archivos"
-      (mouseSobre)="estaSobreDrop = $event"
-      [ngClass]="{ 'file-over': estaSobreDrop }"
-      class="well drop-zone"
-    >
-      <h4>Deje caer aqui los archivos.</h4>
-      <img src="assets/images/drop-images.png" />
-    </div>
-  </div>
+<div>
+  <button
+    [routerLink]="['/cliente/detalles', cliente?.id]"
+    class="btn btn-primary"
+  >
+    Atras
+  </button>
+</div>
+<div
+  class="row"
+  (drop)="prevenirImagenOpen($event)"
+  (dragover)="prevenirImagenOpen($event)"
+>
   <div class="col-8">
-    <h4>Cargar archivos</h4>
-    <button
-      class="btn btn-success"
-      [disabled]="archivos.length === 0"
-      (click)="cargarArchivos()"
-    >
-      Cargar
-    </button>
-    <button (click)="limpiarArchivos()" class="btn btn-danger">Limpiar</button>
-
     <table class="table">
       <thead class="thead-dark">
         <tr>
@@ -50,24 +38,53 @@
       </tbody>
     </table>
   </div>
-</div>
-<div class="col-12">
-  <div class="form-group row">
-    <label class="col-2 col-form-label">Televisores</label>
-    <div class="col-12">
+  <div class="col-4">
+    <h3>Seleccione archivos</h3>
+    <div
+      appNgDropFiles
+      [archivos]="archivos"
+      (mouseSobre)="estaSobreDrop = $event"
+      [ngClass]="{ 'file-over': estaSobreDrop }"
+      class="well drop-zone"
+    >
+      <h4>Deje caer aqui los archivos.</h4>
+      <img src="assets/images/drop-images.png" />
+    </div>
+    <div class="row flex-column align-items-center mt-3">
+      <h4>Cargar archivos</h4>
+      <div class="row">
+        <button
+          class="btn btn-success mr-2"
+          [disabled]="archivos.length === 0"
+          (click)="cargarArchivos()"
+        >
+          Cargar
+        </button>
+        <button (click)="limpiarArchivos()" class="btn btn-danger ml-2">
+          Limpiar
+        </button>
+      </div>
+    </div>
+    <div class="border rounded d-flex flex-column align-items-center mt-5">
+      <h1>Televisores</h1>
       <form [formGroup]="forma" (ngSubmit)="guardar()">
-        <div class="col-12">
-          <select class="form-control" formControlName="ids">
-            <option value="">Seleccione los televisores</option>
-            <option
-              *ngFor="let televisor of televisores"
+        <div class="check form-check" *ngFor="let televisor of televisores">
+          <label
+            ><input
+              type="checkbox"
+              class="form-check-input"
+              id="gridCheck1"
               [value]="televisor.id"
-            >
-              {{ televisor.ubicacion }}
-            </option>
-          </select>
+              (change)="onCheckboxChange(televisor.id, $event)"
+            />{{ televisor.ubicacion }}</label
+          >
         </div>
       </form>
+      <div *ngIf="validar('ids')">
+        <small *ngIf="mensajeRequerido('ids')" class="form-text text-danger"
+          >Elige al menos un televisor.</small
+        >
+      </div>
     </div>
   </div>
 </div>

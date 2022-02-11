@@ -12,6 +12,11 @@ import { DetallesClienteComponent } from './components/detalles-cliente/detalles
 import { MultimediaComponent } from './components/multimedia/multimedia.component';
 
 import { NgDropFilesDirective } from './directivas/ng-drop-files.directive';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { ReutilizarMultimediasComponent } from './components/reutilizar-multimedias/reutilizar-multimedias.component';
 
 @NgModule({
   declarations: [
@@ -22,12 +27,17 @@ import { NgDropFilesDirective } from './directivas/ng-drop-files.directive';
     DetallesClienteComponent,
     MultimediaComponent,
     NgDropFilesDirective,
+    ReutilizarMultimediasComponent,
   ],
   imports: [
     BrowserModule,
     FeatureRoutingModule,
     HttpClientModule,
     ReactiveFormsModule,
+    BrowserAnimationsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSelectModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

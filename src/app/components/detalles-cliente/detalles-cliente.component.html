@@ -12,18 +12,26 @@
 <div class="card border-primary mb-3">
   <div class="card-body text-primary">
     <h5 class="card-title">Listado de Televisores</h5>
-
     <table class="table table-striped table-bordered">
       <thead>
         <tr>
           <th>id</th>
           <th>ubicacion</th>
+          <th>multimedias</th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let televisor of televisores">
           <td>{{ televisor.id }}</td>
           <td>{{ televisor.ubicacion }}</td>
+
+          <td>
+            <a
+              [routerLink]="['/multimedias/televisor', televisor.id]"
+              class="btn btn-primary"
+              >Multimedias</a
+            >
+          </td>
         </tr>
       </tbody>
     </table>

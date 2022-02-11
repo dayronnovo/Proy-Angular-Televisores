@@ -6,6 +6,7 @@ import { NgModule } from '@angular/core';
 import { ClientesComponent } from './components/clientes/clientes.component';
 import { DetallesClienteComponent } from './components/detalles-cliente/detalles-cliente.component';
 import { MultimediaComponent } from './components/multimedia/multimedia.component';
+import { ReutilizarMultimediasComponent } from './components/reutilizar-multimedias/reutilizar-multimedias.component';
 
 const routes: Routes = [
   { path: 'clientes', component: ClientesComponent },
@@ -16,6 +17,10 @@ const routes: Routes = [
     component: DetallesClienteComponent,
   },
   { path: 'multimedia/cliente/:id', component: MultimediaComponent },
+  {
+    path: 'multimedias/televisor/:id',
+    component: ReutilizarMultimediasComponent,
+  },
   { path: '**', pathMatch: 'full', redirectTo: 'clientes' },
   // { path: '**', component: PageNotFoundComponent },
 ];
