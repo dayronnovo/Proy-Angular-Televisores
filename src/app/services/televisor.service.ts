@@ -12,6 +12,13 @@ export class TelevisorService {
 
   constructor(private http: HttpClient) {}
 
+  // Lo uso CronogramaComponent
+  public getTelevisorAndClienteByTelevisorId(
+    id: number
+  ): Observable<Televisor> {
+    return this.http.get<Televisor>(`${this.urlEndPoint}/${id}`);
+  }
+
   public getTelevisoresByClienteIdWithPagination(
     id: number,
     page: number
@@ -20,10 +27,6 @@ export class TelevisorService {
   }
   public getTelevisoresByClienteId(id: number): Observable<any> {
     return this.http.get(`${this.urlEndPoint}/cliente/${id}`);
-  }
-
-  public getMultimediasByTelevisorId(id: number): Observable<any> {
-    return this.http.get(`${this.urlEndPoint}/multimedias/${id}`);
   }
 
   public update_multimedias(

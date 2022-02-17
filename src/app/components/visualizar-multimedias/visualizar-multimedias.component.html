@@ -1,0 +1,23 @@
+<div id="myCarousel" class="carousel slide" data-ride="carousel">
+  <div class="carousel-inner">
+    <div
+      *ngFor="let multimedia of multimedias; let i = index"
+      [ngClass]="{ active: i == 0 }"
+      class="carousel-item"
+    >
+      <img
+        *ngIf="multimedia.tipo_archivo.startsWith('image')"
+        class="d-block w-100 img-fluid"
+        [src]="verArchivo(multimedia.id)"
+        alt="First slide"
+      />
+    </div>
+  </div>
+</div>
+
+<div class="embed-responsive embed-responsive-16by9">
+  <video>Tu navegador no soporta vídeo</video>
+</div>
+
+<!-- *ngIf="multimedia.tipo_archivo.startsWith('video')" -->
+<!-- [src]="verArchivo(multimedia.id) | domSeguro" -->

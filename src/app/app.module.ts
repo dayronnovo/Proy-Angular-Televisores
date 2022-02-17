@@ -17,6 +17,12 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { ReutilizarMultimediasComponent } from './components/reutilizar-multimedias/reutilizar-multimedias.component';
+import { VisualizarMultimediasComponent } from './components/visualizar-multimedias/visualizar-multimedias.component';
+import { DomSeguroPipe } from './pipes/dom-seguro.pipe';
+import { CronogramaComponent } from './components/cronograma/cronograma.component';
+import { ManipularVideoDirective } from './directivas/manipular-video.directive';
+import { ImagenesComponent } from './components/imagenes/imagenes.component';
+import { VideosComponent } from './components/videos/videos.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +34,12 @@ import { ReutilizarMultimediasComponent } from './components/reutilizar-multimed
     MultimediaComponent,
     NgDropFilesDirective,
     ReutilizarMultimediasComponent,
+    VisualizarMultimediasComponent,
+    DomSeguroPipe,
+    CronogramaComponent,
+    ManipularVideoDirective,
+    ImagenesComponent,
+    VideosComponent,
   ],
   imports: [
     BrowserModule,

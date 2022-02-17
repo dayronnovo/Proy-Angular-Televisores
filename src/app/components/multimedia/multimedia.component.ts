@@ -21,6 +21,8 @@ export class MultimediaComponent implements OnInit {
   televisores: Televisor[] = [];
   cliente: Cliente;
   forma: FormGroup;
+  tamanioImagenEnMB: number = 10;
+  tamanioVideoEnMB: number = 80;
 
   constructor(
     private televisorService: TelevisorService,

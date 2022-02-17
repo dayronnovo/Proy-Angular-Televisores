@@ -1,0 +1,25 @@
+<div class="container">
+  <h1>{{ televisor?.cliente.nombre }} : {{ televisor?.ubicacion }}</h1>
+  <hr />
+  <div class="row justify-content-center mb-3">
+    <div class="btn-group" role="group" aria-label="Basic example">
+      <button
+        routerLinkActive="active"
+        routerLink="imagenes"
+        type="button"
+        class="btn btn-secondary"
+      >
+        Imagenes
+      </button>
+      <button
+        routerLinkActive="active"
+        routerLink="videos"
+        type="button"
+        class="btn btn-secondary"
+      >
+        Videos
+      </button>
+    </div>
+  </div>
+  <router-outlet></router-outlet>
+</div>

@@ -15,6 +15,8 @@ export class NgDropFilesDirective {
   constructor() {}
   @Input() archivos: FileItem[] = [];
   @Output() mouseSobre: EventEmitter<boolean> = new EventEmitter();
+  @Input() tamanioImagenEnMB: number;
+  @Input() tamanioVideoEnMB: number;
 
   @HostListener('dragover', ['$event'])
   public onDragEnter(event: any) {
@@ -48,6 +50,7 @@ export class NgDropFilesDirective {
       const archivoTemp = archivosList[propiedad];
       if (this.archivoPuedeSerCargado(archivoTemp)) {
         const nuevoArchivo = new FileItem(archivoTemp);
+
         this.archivos.push(nuevoArchivo);
       }
     }
@@ -56,9 +59,21 @@ export class NgDropFilesDirective {
 
   // Validaciones
   private archivoPuedeSerCargado(archivo: File): boolean {
-    if (!this.yaFueDroppeado(archivo.name) && this.esImagen(archivo.type)) {
+    if (
+      !this.yaFueDroppeado(archivo.name) &&
+      this.validarTipoDeArchivo(archivo.type) &&
+      this.validarTamanioDeArhivo(archivo)
+    ) {
       return true;
     } else return false;
+  }
+
+  private validarTamanioDeArhivo(archivo: File): boolean {
+    if (archivo.type.startsWith('image')) {
+      return this.tamanioImagenEnMB > archivo.size / 1024 / 1024;
+    } else if (archivo.type.startsWith('video')) {
+      return this.tamanioVideoEnMB > archivo.size / 1024 / 1024;
+    }
   }
   // Prevenir que al soltar la imagen al drop el buscador no la abra.
   private prevenirImagenOpen(event) {
@@ -76,9 +91,9 @@ export class NgDropFilesDirective {
     return false;
   }
 
-  private esImagen(tipoArchivo: string): boolean {
+  private validarTipoDeArchivo(tipoArchivo: string): boolean {
     return tipoArchivo === '' || tipoArchivo === undefined
       ? false
-      : tipoArchivo.startsWith('image');
+      : tipoArchivo.startsWith('image') || tipoArchivo.startsWith('video');
   }
 }

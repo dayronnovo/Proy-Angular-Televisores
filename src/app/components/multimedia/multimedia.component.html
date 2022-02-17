@@ -1,11 +1,14 @@
 <!-- <div *ngIf="!loading" class="container animated fadeIn"> -->
-<div>
-  <button
-    [routerLink]="['/cliente/detalles', cliente?.id]"
-    class="btn btn-primary"
-  >
-    Atras
-  </button>
+<div class="container">
+  <div class="row justify-content-between">
+    <button
+      [routerLink]="['/cliente/detalles', cliente?.id]"
+      class="btn btn-primary"
+    >
+      Atras
+    </button>
+    <h1>Cliente: {{ cliente?.nombre }}</h1>
+  </div>
 </div>
 <div
   class="row"
@@ -43,6 +46,8 @@
     <div
       appNgDropFiles
       [archivos]="archivos"
+      [tamanioImagenEnMB]="tamanioImagenEnMB"
+      [tamanioVideoEnMB]="tamanioVideoEnMB"
       (mouseSobre)="estaSobreDrop = $event"
       [ngClass]="{ 'file-over': estaSobreDrop }"
       class="well drop-zone"

@@ -1,27 +1,25 @@
 import { Component, OnInit } from '@angular/core';
 import { Multimedia } from '../../models/multimedia';
-import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
+import { Televisor } from '../../models/televisores';
+import { FormGroup, FormBuilder, FormArray, Validators } from '@angular/forms';
 import { Cliente } from '../../models/cliente';
 import { TelevisorService } from '../../services/televisor.service';
 import { MultimediaService } from '../../services/multimedia.service';
 import { ActivatedRoute } from '@angular/router';
-import { Televisor } from '../../models/televisores';
 
 @Component({
-  selector: 'app-reutilizar-multimedias',
-  templateUrl: './reutilizar-multimedias.component.html',
+  selector: 'app-imagenes',
+  templateUrl: './imagenes.component.html',
   styles: [],
 })
-export class ReutilizarMultimediasComponent implements OnInit {
-  multimediasDelTelevisor: Multimedia[] = [];
-  multimediasDelCliente: Multimedia[] = [];
-  id_televisor: number;
-  televisor: Televisor;
+export class ImagenesComponent implements OnInit {
+  multimedias: Multimedia[] = [];
   forma: FormGroup;
-  cliente: Cliente;
+  // id_televisor: number;
+  // televisor: Televisor;
+  // cliente: Cliente;
 
   constructor(
-    private televisorService: TelevisorService,
     private multimediaService: MultimediaService,
     private activatedRoute: ActivatedRoute,
     private fb: FormBuilder
@@ -33,31 +31,15 @@ export class ReutilizarMultimediasComponent implements OnInit {
   }
 
   public getMultimediasByTelevisorId() {
-    this.activatedRoute.params.subscribe((params) => {
-      this.id_televisor = params['id'];
+    this.activatedRoute.parent.params.subscribe((params) => {
+      let id = params['televisor_id'];
       this.multimediaService
-        .getMultimediasByTelevisorId(this.id_televisor)
+        .get_imagenes_by_televisor_id(id)
         .subscribe((response) => {
-          this.cliente = response.cliente as Cliente;
-          this.multimediasDelTelevisor =
-            response.multimedias_televisor as Multimedia[];
-          this.multimediasDelCliente =
-            response.multimedias_cliente as Multimedia[];
-          this.televisor = response.televisor as Televisor;
-          this.cargarDataAlFormulario();
+          this.multimedias = response.multimedias as Multimedia[];
         });
     });
   }
-
-  // public getMultimediasByClienteId() {
-  //   this.multimediaService
-  //     .getMultimediasByClienteId(this.cliente.id)
-  //     .subscribe((response) => {
-  //       this.multimediasDelCliente = response as Multimedia[];
-  //       // console.log(this.multimediasDelCliente);
-  //       this.cargarDataAlFormulario();
-  //     });
-  // }
 
   verArchivo(id: number): string {
     return this.multimediaService.verFoto(id);
@@ -66,12 +48,13 @@ export class ReutilizarMultimediasComponent implements OnInit {
   // Formulario
   private crearFormulario() {
     this.forma = this.fb.group({
-      ids: this.fb.array([]),
+      multimedias: this.fb.array([], Validators.required),
+      hora: [''],
     });
   }
 
   get getIdsFormArray(): FormArray {
-    return this.forma.get('ids') as FormArray;
+    return this.forma.get('multimedias') as FormArray;
   }
 
   public salvar() {
@@ -82,15 +65,17 @@ export class ReutilizarMultimediasComponent implements OnInit {
       return;
     }
 
-    this.televisorService
-      .update_multimedias(this.id_televisor, this.forma.getRawValue())
-      .subscribe((data) => {});
-  }
+    // console.log(this.forma.getRawValue()['multimedias']);
+    let horaForm: number = this.forma.getRawValue()['hora'];
+    console.log(horaForm);
+    let horaActual: Date = new Date();
+    let hora = horaActual.getHours();
+    let minuto = horaActual.getMinutes();
+    console.log(`${hora}:${minuto}`);
 
-  public cargarDataAlFormulario() {
-    this.multimediasDelTelevisor.forEach((multimedia) => {
-      this.getIdsFormArray.push(this.fb.control(multimedia));
-    });
+    // this.televisorService
+    //   .update_multimedias(this.id_televisor, this.forma.getRawValue())
+    //   .subscribe((data) => {});
   }
 
   public marcarElCheckboxes(option): boolean {
@@ -110,7 +95,7 @@ export class ReutilizarMultimediasComponent implements OnInit {
 
   public marcarTodo() {
     this.desmarcarTodo();
-    this.multimediasDelCliente.forEach((multimedia) => {
+    this.multimedias.forEach((multimedia) => {
       this.getIdsFormArray.push(this.fb.control(multimedia));
     });
   }
