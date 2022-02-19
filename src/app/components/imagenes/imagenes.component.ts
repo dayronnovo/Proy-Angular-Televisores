@@ -29,7 +29,6 @@ export class ImagenesComponent implements OnInit {
   public getMultimediasByClienteId() {
     this.activatedRoute.parent.params.subscribe((params) => {
       let cliente_id = params['cliente_id'];
-      // let televisor_id = params['televisor_id'];
       this.multimediaService
         .get_imagenes_by_cliente_id(cliente_id)
         .subscribe((response) => {

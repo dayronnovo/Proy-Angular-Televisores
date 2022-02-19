@@ -5,28 +5,28 @@
     <div class="card-header">Header</div>
     <div class="card-body">
       <!-- Campo para elegir la hora -->
-      <!-- <form class="form-inline"> -->
-      <div class="form-group row">
-        <label
-          for="colFormLabelSm"
-          class="col-sm-2 col-form-label col-form-label-sm"
-          >Hora:
-        </label>
-        <div class="col-2">
-          <input
-            formControlName="hora"
-            type="time"
-            class="form-control form-control-sm"
-            id="colFormLabelSm"
-            placeholder="col-form-label-sm"
-          />
+      <form class="form-inline" [formGroup]="formad">
+        <div class="form-group row">
+          <label
+            for="colFormLabelSm"
+            class="col-sm-2 col-form-label col-form-label-sm ml-3"
+            >Hora:
+          </label>
+          <div class="col-2">
+            <input
+              formControlName="hora"
+              type="time"
+              class="form-control form-control-sm"
+              id="colFormLabelSm"
+              placeholder="col-form-label-sm"
+            />
+          </div>
         </div>
-      </div>
-      <!-- </form> -->
+      </form>
       <div class="row">
         <div class="col-6">
           <!-- Aqui van a estar las multimedias -->
-          <router-outlet></router-outlet>
+          <!-- <router-outlet></router-outlet> -->
         </div>
         <div class="col-6">
           <!-- Aqui van a estar los televisores -->
@@ -35,16 +35,18 @@
             <div class="card-body">
               <div *ngFor="let televisor of televisores" class="col-auto my-1">
                 <div class="custom-control custom-checkbox mr-sm-2">
-                  <input
-                    type="checkbox"
-                    class="custom-control-input"
-                    id="customControlAutosizing"
-                  />
-                  <label
-                    class="custom-control-label"
-                    for="customControlAutosizing"
-                    >{{ televisor.ubicacion }}</label
-                  >
+                  <form [formGroup]="formad">
+                    <input
+                      type="checkbox"
+                      class="custom-control-input"
+                      [id]="televisor.id"
+                      [value]="televisor"
+                      (change)="onCheckboxChange(televisor, $event)"
+                    />
+                    <label class="custom-control-label" [for]="televisor.id">{{
+                      televisor.ubicacion
+                    }}</label>
+                  </form>
                 </div>
               </div>
             </div>
@@ -53,4 +55,14 @@
       </div>
     </div>
   </div>
+</div>
+
+<div class="col-12">
+  <pre>
+  Estado del Formulario: {{ formad.valid }}
+  Status: {{ formad.status }}
+  </pre>
+  <pre>
+  {{ formad.value | json }}
+  </pre>
 </div>

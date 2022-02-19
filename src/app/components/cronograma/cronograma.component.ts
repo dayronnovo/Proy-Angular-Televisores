@@ -4,6 +4,7 @@ import { ClienteService } from '../../services/cliente.service';
 import { ActivatedRoute } from '@angular/router';
 import { TelevisorService } from '../../services/televisor.service';
 import { Televisor } from '../../models/televisores';
+import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 
 @Component({
   selector: 'app-cronograma',
@@ -13,14 +14,17 @@ import { Televisor } from '../../models/televisores';
 export class CronogramaComponent implements OnInit {
   cliente: Cliente;
   televisores: Televisor[] = [];
+  formad: FormGroup;
 
   constructor(
     private activatedRoute: ActivatedRoute,
     private clienteService: ClienteService,
-    private televisorService: TelevisorService
+    private televisorService: TelevisorService,
+    private fb: FormBuilder
   ) {}
 
   ngOnInit(): void {
+    this.crearFormulario();
     this.getClienteById();
   }
 
@@ -40,5 +44,74 @@ export class CronogramaComponent implements OnInit {
       .subscribe((response) => {
         this.televisores = response as Televisor[];
       });
+  }
+
+  // Formulario
+  private crearFormulario() {
+    this.formad = this.fb.group({
+      televisores: this.fb.array([], Validators.required),
+      hora: [],
+    });
+  }
+
+  get getIdsFormArray(): FormArray {
+    return this.formad.get('televisores') as FormArray;
+  }
+
+  public salvar() {
+    if (this.formad.invalid) {
+      Object.values(this.formad.controls).forEach((control) => {
+        control.markAsTouched();
+      });
+      return;
+    }
+
+    // console.log(this.forma.getRawValue()['multimedias']);
+    let horaForm: number = this.formad.getRawValue()['hora'];
+    console.log(horaForm);
+    let horaActual: Date = new Date();
+    let hora = horaActual.getHours();
+    let minuto = horaActual.getMinutes();
+    console.log(`${hora}:${minuto}`);
+
+    // console.log(this.forma.getRawValue()['multimedias']);
+
+    // this.televisorService
+    //   .update_multimedias(this.id_televisor, this.forma.getRawValue())
+    //   .subscribe((data) => {});
+  }
+
+  // public desmarcarTodo() {
+  //   this.getIdsFormArray.clear();
+  // }
+
+  // public marcarTodo() {
+  //   this.desmarcarTodo();
+  //   this.multimedias.forEach((multimedia) => {
+  //     this.getIdsFormArray.push(this.fb.control(multimedia));
+  //   });
+  // }
+
+  public onCheckboxChange(option, event) {
+    if (event.target.checked) {
+      this.getIdsFormArray.push(this.fb.control(option));
+    } else {
+      let arreglo: any[] = this.getIdsFormArray.getRawValue();
+
+      // this.getIdsFormArray.removeAt(num);
+      arreglo.forEach((televisor) => {
+        if (televisor.id == option.id) {
+          let num: number = arreglo.indexOf(televisor);
+          this.getIdsFormArray.removeAt(num);
+        }
+      });
+    }
+  }
+
+  public validar(campo: string): boolean {
+    return this.formad.get(campo).invalid && this.formad.get(campo).touched;
+  }
+  public mensajeRequerido(campo: string): boolean {
+    return this.formad.get(campo).errors.required;
   }
 }
