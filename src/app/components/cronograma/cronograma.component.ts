@@ -11,25 +11,34 @@ import { Televisor } from '../../models/televisores';
   styles: [],
 })
 export class CronogramaComponent implements OnInit {
-  televisor: Televisor;
+  cliente: Cliente;
+  televisores: Televisor[] = [];
 
   constructor(
-    private televisorService: TelevisorService,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private clienteService: ClienteService,
+    private televisorService: TelevisorService
   ) {}
 
   ngOnInit(): void {
-    this.getTelevisorAndClienteByTelevisorId();
+    this.getClienteById();
   }
 
-  public getTelevisorAndClienteByTelevisorId() {
+  public getClienteById() {
     this.activatedRoute.params.subscribe((params) => {
-      let id = params['televisor_id'];
-      this.televisorService
-        .getTelevisorAndClienteByTelevisorId(id)
-        .subscribe((data) => {
-          this.televisor = data;
-        });
+      let cliente_id = params['cliente_id'];
+      this.clienteService.getClienteById(cliente_id).subscribe((response) => {
+        this.cliente = response;
+        this.getTelevisoresByClienteId();
+      });
     });
+  }
+
+  public getTelevisoresByClienteId() {
+    this.televisorService
+      .getTelevisoresByClienteId(this.cliente.id)
+      .subscribe((response) => {
+        this.televisores = response as Televisor[];
+      });
   }
 }

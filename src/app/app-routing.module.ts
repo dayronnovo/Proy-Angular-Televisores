@@ -25,7 +25,7 @@ const routes: Routes = [
     component: VisualizarMultimediasComponent,
   },
   {
-    path: 'cronograma/televisor/:cliente_id/:televisor_id',
+    path: 'cronograma/:cliente_id',
     component: CronogramaComponent,
     children: [
       { path: 'imagenes', component: ImagenesComponent },

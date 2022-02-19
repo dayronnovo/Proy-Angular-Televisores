@@ -1,25 +1,56 @@
 <div class="container">
-  <h1>{{ televisor?.cliente.nombre }} : {{ televisor?.ubicacion }}</h1>
+  <h1>{{ cliente?.nombre }}</h1>
   <hr />
-  <div class="row justify-content-center mb-3">
-    <div class="btn-group" role="group" aria-label="Basic example">
-      <button
-        routerLinkActive="active"
-        routerLink="imagenes"
-        type="button"
-        class="btn btn-secondary"
-      >
-        Imagenes
-      </button>
-      <button
-        routerLinkActive="active"
-        routerLink="videos"
-        type="button"
-        class="btn btn-secondary"
-      >
-        Videos
-      </button>
+  <div class="card text-center">
+    <div class="card-header">Header</div>
+    <div class="card-body">
+      <!-- Campo para elegir la hora -->
+      <!-- <form class="form-inline"> -->
+      <div class="form-group row">
+        <label
+          for="colFormLabelSm"
+          class="col-sm-2 col-form-label col-form-label-sm"
+          >Hora:
+        </label>
+        <div class="col-2">
+          <input
+            formControlName="hora"
+            type="time"
+            class="form-control form-control-sm"
+            id="colFormLabelSm"
+            placeholder="col-form-label-sm"
+          />
+        </div>
+      </div>
+      <!-- </form> -->
+      <div class="row">
+        <div class="col-6">
+          <!-- Aqui van a estar las multimedias -->
+          <router-outlet></router-outlet>
+        </div>
+        <div class="col-6">
+          <!-- Aqui van a estar los televisores -->
+          <div class="card text-center">
+            <div class="card-header">Televisores</div>
+            <div class="card-body">
+              <div *ngFor="let televisor of televisores" class="col-auto my-1">
+                <div class="custom-control custom-checkbox mr-sm-2">
+                  <input
+                    type="checkbox"
+                    class="custom-control-input"
+                    id="customControlAutosizing"
+                  />
+                  <label
+                    class="custom-control-label"
+                    for="customControlAutosizing"
+                    >{{ televisor.ubicacion }}</label
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
-  <router-outlet></router-outlet>
 </div>

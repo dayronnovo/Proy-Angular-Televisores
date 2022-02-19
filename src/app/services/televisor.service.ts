@@ -25,7 +25,7 @@ export class TelevisorService {
   ): Observable<any> {
     return this.http.get(`${this.urlEndPoint}/cliente/${id}/${page}`);
   }
-  public getTelevisoresByClienteId(id: number): Observable<any> {
+  public getTelevisoresByClienteId(id: string): Observable<any> {
     return this.http.get(`${this.urlEndPoint}/cliente/${id}`);
   }
 
