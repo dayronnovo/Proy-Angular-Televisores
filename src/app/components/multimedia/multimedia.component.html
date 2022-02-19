@@ -70,38 +70,5 @@
         </button>
       </div>
     </div>
-    <div class="border rounded d-flex flex-column align-items-center mt-5">
-      <h1>Televisores</h1>
-      <form [formGroup]="forma" (ngSubmit)="guardar()">
-        <div class="check form-check" *ngFor="let televisor of televisores">
-          <label
-            ><input
-              type="checkbox"
-              class="form-check-input"
-              id="gridCheck1"
-              [value]="televisor.id"
-              (change)="onCheckboxChange(televisor.id, $event)"
-            />{{ televisor.ubicacion }}</label
-          >
-        </div>
-      </form>
-      <div *ngIf="validar('ids')">
-        <small *ngIf="mensajeRequerido('ids')" class="form-text text-danger"
-          >Elige al menos un televisor.</small
-        >
-      </div>
-    </div>
   </div>
-</div>
-
-<div class="col-12">
-  <pre>
-    Estado del Formulario: {{ forma.valid }}
-    Status: {{ forma.status }}
-    </pre
-  >
-  <pre>
-    {{ forma.value | json }}
-    </pre
-  >
 </div>

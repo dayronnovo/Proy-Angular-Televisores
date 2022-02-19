@@ -1,11 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { Multimedia } from '../../models/multimedia';
-import { Televisor } from '../../models/televisores';
 import { FormGroup, FormBuilder, FormArray, Validators } from '@angular/forms';
-import { Cliente } from '../../models/cliente';
-import { TelevisorService } from '../../services/televisor.service';
 import { MultimediaService } from '../../services/multimedia.service';
 import { ActivatedRoute } from '@angular/router';
+import { Cliente } from '../../models/cliente';
 
 @Component({
   selector: 'app-imagenes',
@@ -14,10 +12,8 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class ImagenesComponent implements OnInit {
   multimedias: Multimedia[] = [];
+  @Input() cliente: Cliente;
   forma: FormGroup;
-  // id_televisor: number;
-  // televisor: Televisor;
-  // cliente: Cliente;
 
   constructor(
     private multimediaService: MultimediaService,
@@ -26,17 +22,18 @@ export class ImagenesComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.getMultimediasByTelevisorId();
+    this.getMultimediasByClienteId();
     this.crearFormulario();
   }
 
-  public getMultimediasByTelevisorId() {
+  public getMultimediasByClienteId() {
     this.activatedRoute.parent.params.subscribe((params) => {
-      let id = params['televisor_id'];
+      let cliente_id = params['cliente_id'];
+      // let televisor_id = params['televisor_id'];
       this.multimediaService
-        .get_imagenes_by_televisor_id(id)
+        .get_imagenes_by_cliente_id(cliente_id)
         .subscribe((response) => {
-          this.multimedias = response.multimedias as Multimedia[];
+          this.multimedias = response as Multimedia[];
         });
     });
   }
@@ -72,6 +69,8 @@ export class ImagenesComponent implements OnInit {
     let hora = horaActual.getHours();
     let minuto = horaActual.getMinutes();
     console.log(`${hora}:${minuto}`);
+
+    // console.log(this.forma.getRawValue()['multimedias']);
 
     // this.televisorService
     //   .update_multimedias(this.id_televisor, this.forma.getRawValue())

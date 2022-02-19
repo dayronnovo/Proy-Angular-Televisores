@@ -1,1 +1,98 @@
-<p>videos works!</p>
+<div class="card animated fadeIn">
+  <div class="card-header text-center">Multimedias</div>
+  <div class="card-body">
+    <div class="row">
+      <div class="col-6">
+        <form class="form-inline" [formGroup]="forma">
+          <div class="form-group row">
+            <label
+              for="colFormLabelSm"
+              class="col-sm-2 col-form-label col-form-label-sm"
+              >Hora:
+            </label>
+            <div class="col-2">
+              <input
+                formControlName="hora"
+                type="time"
+                class="form-control form-control-sm"
+                id="colFormLabelSm"
+                placeholder="col-form-label-sm"
+              />
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <!-- <div class="col-6">
+        <!-- <div>
+          <button (click)="marcarTodo()" class="btn btn-primary">
+            Marcar Todos
+          </button>
+          <button (click)="desmarcarTodo()" class="btn btn-primary">
+            Desmarcar Todos
+          </button>
+        </div> -->
+    </div>
+    -->
+  </div>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th></th>
+        <th scope="col">foto</th>
+        <th scope="col">archivo</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>
+          <form [formGroup]="forma">
+            <input
+              type="checkbox"
+              class="form-check-input"
+              id="gridCheck1"
+              [value]="multimedia"
+              [checked]="marcarElCheckboxes(multimedia)"
+              (change)="onCheckboxChange(multimedia, $event)"
+            />
+          </form>
+        </td>
+        <td>
+          <img
+            *ngIf="multimedia?.tipo_archivo.startsWith('image')"
+            [src]="verArchivo(multimedia?.id)"
+            alt=""
+            style="width: 64px; cursor: pointer"
+          />
+          <div
+            *ngIf="multimedia?.tipo_archivo.startsWith('video')"
+            class="embed-responsive embed-responsive-1by1"
+          >
+            <video controls poster="assets\images\icono_video.png">
+              <source [src]="verArchivo(multimedia.id) | domSeguro" />
+              Tu navegador no soporta vídeo
+            </video>
+          </div>
+        </td>
+        <td>{{ multimedia?.archivo }}</td>
+      </tr>
+    </tbody>
+  </table>
+  <div>
+    <!-- <app-paginador *ngIf="paginador" [paginador]="paginador"></app-paginador> -->
+  </div>
+</div>
+
+<div>
+  <button (click)="salvar()" class="btn btn-primary">Done</button>
+</div>
+
+<div class="col-12">
+  <pre>
+  Estado del Formulario: {{ forma.valid }}
+  Status: {{ forma.status }}
+  </pre>
+  <pre>
+  {{ forma.value | json }}
+  </pre>
+</div>

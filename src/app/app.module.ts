@@ -16,7 +16,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-import { ReutilizarMultimediasComponent } from './components/reutilizar-multimedias/reutilizar-multimedias.component';
 import { VisualizarMultimediasComponent } from './components/visualizar-multimedias/visualizar-multimedias.component';
 import { DomSeguroPipe } from './pipes/dom-seguro.pipe';
 import { CronogramaComponent } from './components/cronograma/cronograma.component';
@@ -33,7 +32,6 @@ import { VideosComponent } from './components/videos/videos.component';
     DetallesClienteComponent,
     MultimediaComponent,
     NgDropFilesDirective,
-    ReutilizarMultimediasComponent,
     VisualizarMultimediasComponent,
     DomSeguroPipe,
     CronogramaComponent,

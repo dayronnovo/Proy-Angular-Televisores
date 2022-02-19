@@ -6,7 +6,6 @@ import { NgModule } from '@angular/core';
 import { ClientesComponent } from './components/clientes/clientes.component';
 import { DetallesClienteComponent } from './components/detalles-cliente/detalles-cliente.component';
 import { MultimediaComponent } from './components/multimedia/multimedia.component';
-import { ReutilizarMultimediasComponent } from './components/reutilizar-multimedias/reutilizar-multimedias.component';
 import { VisualizarMultimediasComponent } from './components/visualizar-multimedias/visualizar-multimedias.component';
 import { CronogramaComponent } from './components/cronograma/cronograma.component';
 import { ImagenesComponent } from './components/imagenes/imagenes.component';
@@ -20,14 +19,13 @@ const routes: Routes = [
     path: 'cliente/detalles/:id/page/:page',
     component: DetallesClienteComponent,
   },
-  { path: 'multimedia/cliente/:id', component: MultimediaComponent },
-  { path: 'multimedia/ver/:id', component: VisualizarMultimediasComponent },
+  { path: 'multimedia/cliente/:cliente_id', component: MultimediaComponent },
   {
-    path: 'multimedias/televisor/:id',
-    component: ReutilizarMultimediasComponent,
+    path: 'multimedia/reproducir/:televisor_id',
+    component: VisualizarMultimediasComponent,
   },
   {
-    path: 'cronograma/televisor/:televisor_id',
+    path: 'cronograma/televisor/:cliente_id/:televisor_id',
     component: CronogramaComponent,
     children: [
       { path: 'imagenes', component: ImagenesComponent },

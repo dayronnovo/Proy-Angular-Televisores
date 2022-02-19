@@ -5,8 +5,8 @@ import { Televisor } from '../../models/televisores';
 import { MultimediaService } from '../../services/multimedia.service';
 import { HttpEventType } from '@angular/common/http';
 import { FileItem } from '../../models/file_item';
-import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Cliente } from '../../models/cliente';
+import { ClienteService } from '../../services/cliente.service';
 
 @Component({
   selector: 'app-multimedia',
@@ -20,37 +20,25 @@ export class MultimediaComponent implements OnInit {
   estaSobreDrop: boolean = false;
   televisores: Televisor[] = [];
   cliente: Cliente;
-  forma: FormGroup;
   tamanioImagenEnMB: number = 10;
   tamanioVideoEnMB: number = 80;
 
   constructor(
-    private televisorService: TelevisorService,
     private multimediaService: MultimediaService,
     private activatedRoute: ActivatedRoute,
-    private fb: FormBuilder
-  ) {
-    this.obtenerTelevisores();
-    this.crearFormulario();
+    private clienteService: ClienteService
+  ) {}
+
+  ngOnInit(): void {
+    this.getCliente();
   }
 
-  ngOnInit(): void {}
-
-  obtenerTelevisores() {
+  public getCliente() {
     this.activatedRoute.params.subscribe((params) => {
-      let id: number = params['id'];
-      // console.log(id);
-      this.televisorService.getTelevisoresByClienteId(id).subscribe(
-        (response) => {
-          this.cliente = response.cliente as Cliente;
-          this.televisores = response.televisores as Televisor[];
-          // this.verFoto();
-          // this.loading = false;
-        },
-        (err) => {
-          // Swal.fire('Ocurrio un error', `${err.error.mensaje}`, 'error');
-        }
-      );
+      let cliente_id = params['cliente_id'];
+      this.clienteService.getClienteById(cliente_id).subscribe((response) => {
+        this.cliente = response;
+      });
     });
   }
 
@@ -64,15 +52,8 @@ export class MultimediaComponent implements OnInit {
     this.archivos = [];
   }
   private cargarArchivosHelper(archivo: FileItem) {
-    if (this.forma.invalid) {
-      Object.values(this.forma.controls).forEach((control) => {
-        control.markAsTouched();
-      });
-      return;
-    }
-
-    this.multimediaService
-      .cargarArchivos(archivo.archivo, this.forma.getRawValue())
+    this.clienteService
+      .cargarArchivos(archivo.archivo, this.cliente.id)
       .subscribe((event) => {
         if (event.type === HttpEventType.UploadProgress) {
           archivo.progreso = Math.round((event.loaded / event.total) * 100);
@@ -84,45 +65,8 @@ export class MultimediaComponent implements OnInit {
       });
   }
 
-  // Formulario Select
-  private crearFormulario() {
-    this.forma = this.fb.group({
-      ids: this.fb.array([], Validators.required),
-    });
-  }
-
-  get getIdsFormArray(): FormArray {
-    return this.forma.get('ids') as FormArray;
-  }
-
-  public guardar() {
-    if (this.forma.invalid) {
-      Object.values(this.forma.controls).forEach((control) => {
-        control.markAsTouched();
-      });
-      return;
-    }
-  }
-
-  public onCheckboxChange(option, event) {
-    if (event.target.checked) {
-      this.getIdsFormArray.push(this.fb.control(option));
-    } else {
-      let arreglo: any[] = this.getIdsFormArray.getRawValue();
-      let num: number = arreglo.indexOf(option);
-      this.getIdsFormArray.removeAt(num);
-    }
-  }
-
   public prevenirImagenOpen(event) {
     event.preventDefault();
     event.stopPropagation();
-  }
-
-  public validar(campo: string): boolean {
-    return this.forma.get(campo).invalid && this.forma.get(campo).touched;
-  }
-  public mensajeRequerido(campo: string): boolean {
-    return this.forma.get(campo).errors.required;
   }
 }
