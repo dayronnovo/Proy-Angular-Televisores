@@ -26,7 +26,11 @@
       <div class="row">
         <div class="col-6">
           <!-- Aqui van a estar las multimedias -->
-          <!-- <router-outlet></router-outlet> -->
+          <app-imagenes
+            (multimediasEscogidas)="
+              getMultimediasDesdeImagenesComponent($event)
+            "
+          ></app-imagenes>
         </div>
         <div class="col-6">
           <!-- Aqui van a estar los televisores -->
@@ -39,13 +43,15 @@
                     <input
                       type="checkbox"
                       class="custom-control-input"
-                      [id]="televisor.id"
+                      [id]="getLabelAndFor(televisor)"
                       [value]="televisor"
                       (change)="onCheckboxChange(televisor, $event)"
                     />
-                    <label class="custom-control-label" [for]="televisor.id">{{
-                      televisor.ubicacion
-                    }}</label>
+                    <label
+                      class="custom-control-label"
+                      [for]="getLabelAndFor(televisor)"
+                      >{{ televisor.ubicacion }}</label
+                    >
                   </form>
                 </div>
               </div>
@@ -55,6 +61,9 @@
       </div>
     </div>
   </div>
+</div>
+<div>
+  <button (click)="guardar()" class="btn btn-primary">Done</button>
 </div>
 
 <div class="col-12">

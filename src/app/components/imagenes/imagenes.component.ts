@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Multimedia } from '../../models/multimedia';
 import { FormGroup, FormBuilder, FormArray, Validators } from '@angular/forms';
 import { MultimediaService } from '../../services/multimedia.service';
@@ -12,14 +12,17 @@ import { Cliente } from '../../models/cliente';
 })
 export class ImagenesComponent implements OnInit {
   multimedias: Multimedia[] = [];
-  @Input() cliente: Cliente;
+  // @Input() cliente: Cliente;
+  @Output() multimediasEscogidas: EventEmitter<any>;
   forma: FormGroup;
 
   constructor(
     private multimediaService: MultimediaService,
     private activatedRoute: ActivatedRoute,
     private fb: FormBuilder
-  ) {}
+  ) {
+    this.multimediasEscogidas = new EventEmitter();
+  }
 
   ngOnInit(): void {
     this.getMultimediasByClienteId();
@@ -27,10 +30,11 @@ export class ImagenesComponent implements OnInit {
   }
 
   public getMultimediasByClienteId() {
-    this.activatedRoute.parent.params.subscribe((params) => {
+    this.activatedRoute.params.subscribe((params) => {
       let cliente_id = params['cliente_id'];
+      console.log(cliente_id);
       this.multimediaService
-        .get_imagenes_by_cliente_id(cliente_id)
+        .getMultimediasByClienteId(cliente_id)
         .subscribe((response) => {
           this.multimedias = response as Multimedia[];
         });
@@ -41,11 +45,14 @@ export class ImagenesComponent implements OnInit {
     return this.multimediaService.verFoto(id);
   }
 
+  public getLabelAndFor(multimedia: Multimedia) {
+    return `${multimedia.id}-${multimedia.archivo}`;
+  }
+
   // Formulario
   private crearFormulario() {
     this.forma = this.fb.group({
       multimedias: this.fb.array([], Validators.required),
-      hora: [''],
     });
   }
 
@@ -112,6 +119,7 @@ export class ImagenesComponent implements OnInit {
         }
       });
     }
+    this.multimediasEscogidas.emit(this.getIdsFormArray.getRawValue());
   }
 
   public validar(campo: string): boolean {

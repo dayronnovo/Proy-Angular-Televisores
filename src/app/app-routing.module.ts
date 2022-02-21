@@ -37,6 +37,8 @@ const routes: Routes = [
   // { path: '**', component: PageNotFoundComponent },
 ];
 
+// http://base-path/primary-route-path(outlet-name:route-path)
+
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],

@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { Cliente } from '../../models/cliente';
 import { ClienteService } from '../../services/cliente.service';
 import { ActivatedRoute } from '@angular/router';
 import { TelevisorService } from '../../services/televisor.service';
 import { Televisor } from '../../models/televisores';
 import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
+import { Multimedia } from '../../models/multimedia';
 
 @Component({
   selector: 'app-cronograma',
@@ -15,6 +16,7 @@ export class CronogramaComponent implements OnInit {
   cliente: Cliente;
   televisores: Televisor[] = [];
   formad: FormGroup;
+  multimedias: any[] = [];
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -26,6 +28,10 @@ export class CronogramaComponent implements OnInit {
   ngOnInit(): void {
     this.crearFormulario();
     this.getClienteById();
+  }
+
+  public getLabelAndFor(televisor: Televisor) {
+    return `${televisor.id}-${televisor.ubicacion}`;
   }
 
   public getClienteById() {
@@ -58,12 +64,12 @@ export class CronogramaComponent implements OnInit {
     return this.formad.get('televisores') as FormArray;
   }
 
-  public salvar() {
+  public guardar() {
     if (this.formad.invalid) {
       Object.values(this.formad.controls).forEach((control) => {
         control.markAsTouched();
       });
-      return;
+      // return;
     }
 
     // console.log(this.forma.getRawValue()['multimedias']);
@@ -74,11 +80,13 @@ export class CronogramaComponent implements OnInit {
     let minuto = horaActual.getMinutes();
     console.log(`${hora}:${minuto}`);
 
-    // console.log(this.forma.getRawValue()['multimedias']);
-
     // this.televisorService
     //   .update_multimedias(this.id_televisor, this.forma.getRawValue())
     //   .subscribe((data) => {});
+  }
+
+  public getMultimediasDesdeImagenesComponent(multimedias: Multimedia[]) {
+    this.multimedias = multimedias;
   }
 
   // public desmarcarTodo() {

@@ -37,7 +37,7 @@ export class MultimediaService {
     return this.http.get(`${this.urlEndPoint}/videos/${id}`);
   }
 
-  // public getMultimediasByClienteId(id: number): Observable<any> {
-  //   return this.http.get(`${this.urlEndPoint}/cliente/${id}`);
-  // }
+  public getMultimediasByClienteId(id: number): Observable<any> {
+    return this.http.get(`${this.urlEndPoint}/cliente/${id}`);
+  }
 }

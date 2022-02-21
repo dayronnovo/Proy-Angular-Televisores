@@ -1,5 +1,5 @@
 <div class="card animated fadeIn">
-  <div class="card-header text-center">Imagenes</div>
+  <div class="card-header text-center">Multimedias</div>
   <div class="card-body">
     <div class="card">
       <ul class="list-group list-group-flush">
@@ -12,18 +12,31 @@
               <input
                 type="checkbox"
                 class="custom-control-input"
-                id="customControlAutosizing"
+                [id]="getLabelAndFor(multimedia)"
                 [value]="multimedia"
                 [checked]="marcarElCheckboxes(multimedia)"
                 (change)="onCheckboxChange(multimedia, $event, i)"
               />
-              <label class="custom-control-label" for="customControlAutosizing">
+              <label
+                class="custom-control-label"
+                [for]="getLabelAndFor(multimedia)"
+              >
                 <img
                   *ngIf="multimedia.tipo_archivo.startsWith('image')"
                   [src]="verArchivo(multimedia.id)"
                   alt=""
                   style="width: 64px; cursor: pointer"
                 />
+                <div *ngIf="multimedia.tipo_archivo.startsWith('video')">
+                  <video
+                    style="width: 80px; cursor: pointer"
+                    controls
+                    poster="assets\images\icono_video.png"
+                  >
+                    <source [src]="verArchivo(multimedia.id) | domSeguro" />
+                    Tu navegador no soporta vídeo
+                  </video>
+                </div>
               </label>
             </div>
           </form>
@@ -35,9 +48,6 @@
       <!-- <app-paginador *ngIf="paginador" [paginador]="paginador"></app-paginador> -->
     </div>
   </div>
-</div>
-<div>
-  <button (click)="salvar()" class="btn btn-primary">Done</button>
 </div>
 
 <!-- <div class="col-12">
