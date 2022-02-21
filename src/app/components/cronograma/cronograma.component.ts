@@ -87,6 +87,7 @@ export class CronogramaComponent implements OnInit {
 
   public getMultimediasDesdeImagenesComponent(multimedias: Multimedia[]) {
     this.multimedias = multimedias;
+    console.log(this.multimedias);
   }
 
   // public desmarcarTodo() {
@@ -102,14 +103,14 @@ export class CronogramaComponent implements OnInit {
 
   public onCheckboxChange(option, event) {
     if (event.target.checked) {
-      this.getIdsFormArray.push(this.fb.control(option));
+      this.getIdsFormArray.push(this.fb.control(option.id));
     } else {
       let arreglo: any[] = this.getIdsFormArray.getRawValue();
 
       // this.getIdsFormArray.removeAt(num);
-      arreglo.forEach((televisor) => {
-        if (televisor.id == option.id) {
-          let num: number = arreglo.indexOf(televisor);
+      arreglo.forEach((televisor_id) => {
+        if (televisor_id == option.id) {
+          let num: number = arreglo.indexOf(televisor_id);
           this.getIdsFormArray.removeAt(num);
         }
       });

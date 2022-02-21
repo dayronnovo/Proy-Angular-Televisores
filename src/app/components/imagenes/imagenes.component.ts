@@ -107,14 +107,14 @@ export class ImagenesComponent implements OnInit {
 
   public onCheckboxChange(option, event, i) {
     if (event.target.checked) {
-      this.getIdsFormArray.push(this.fb.control(option));
+      this.getIdsFormArray.push(this.fb.control(option.id));
     } else {
       let arreglo: any[] = this.getIdsFormArray.getRawValue();
 
       // this.getIdsFormArray.removeAt(num);
-      arreglo.forEach((multimedia) => {
-        if (multimedia.id == option.id) {
-          let num: number = arreglo.indexOf(multimedia);
+      arreglo.forEach((multimedia_id) => {
+        if (multimedia_id == option.id) {
+          let num: number = arreglo.indexOf(multimedia_id);
           this.getIdsFormArray.removeAt(num);
         }
       });
