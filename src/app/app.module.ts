@@ -22,6 +22,7 @@ import { CronogramaComponent } from './components/cronograma/cronograma.componen
 import { ManipularVideoDirective } from './directivas/manipular-video.directive';
 import { ImagenesComponent } from './components/imagenes/imagenes.component';
 import { VideosComponent } from './components/videos/videos.component';
+import { RevisarCronogramaComponent } from './components/revisar-cronograma/revisar-cronograma.component';
 
 @NgModule({
   declarations: [
@@ -38,6 +39,7 @@ import { VideosComponent } from './components/videos/videos.component';
     ManipularVideoDirective,
     ImagenesComponent,
     VideosComponent,
+    RevisarCronogramaComponent,
   ],
   imports: [
     BrowserModule,

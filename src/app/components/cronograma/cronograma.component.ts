@@ -17,6 +17,7 @@ export class CronogramaComponent implements OnInit {
   televisores: Televisor[] = [];
   formad: FormGroup;
   multimedias: any[] = [];
+  programacion: any[] = [];
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -85,7 +86,7 @@ export class CronogramaComponent implements OnInit {
 
     let milisegundos = this.calcularDiferenciaDeHoras(hora_actual, hora_inicio);
 
-    setTimeout(() => {
+    let timeId = setTimeout(() => {
       console.log('Se ejecuto');
       this.televisorService
         .update_multimedias(
@@ -94,6 +95,12 @@ export class CronogramaComponent implements OnInit {
         )
         .subscribe((data) => {});
     }, milisegundos);
+    console.log(timeId);
+    this.programacion.push({
+      hora_de_inicio: hora_inicio,
+      multimedias: this.multimedias,
+      timeId: timeId,
+    });
   }
 
   private calcularDiferenciaDeHoras(hora_actual, hora_inicio) {
