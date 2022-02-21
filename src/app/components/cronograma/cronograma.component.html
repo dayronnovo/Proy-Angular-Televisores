@@ -6,7 +6,7 @@
     <div class="card-body">
       <!-- Campo para elegir la hora -->
       <form class="form-inline" [formGroup]="formad">
-        <div class="form-group row">
+        <div class="form-group row mb-2">
           <label
             for="colFormLabelSm"
             class="col-sm-2 col-form-label col-form-label-sm ml-3"
@@ -61,9 +61,9 @@
       </div>
     </div>
   </div>
-</div>
-<div>
-  <button (click)="guardar()" class="btn btn-primary">Done</button>
+  <div class="row mt-2 justify-content-center">
+    <button (click)="guardar()" class="btn btn-primary">Done</button>
+  </div>
 </div>
 
 <div class="col-12">

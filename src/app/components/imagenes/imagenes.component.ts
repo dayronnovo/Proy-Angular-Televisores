@@ -32,7 +32,6 @@ export class ImagenesComponent implements OnInit {
   public getMultimediasByClienteId() {
     this.activatedRoute.params.subscribe((params) => {
       let cliente_id = params['cliente_id'];
-      console.log(cliente_id);
       this.multimediaService
         .getMultimediasByClienteId(cliente_id)
         .subscribe((response) => {

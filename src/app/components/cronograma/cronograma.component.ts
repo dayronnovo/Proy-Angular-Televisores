@@ -85,15 +85,15 @@ export class CronogramaComponent implements OnInit {
 
     let milisegundos = this.calcularDiferenciaDeHoras(hora_actual, hora_inicio);
 
-    console.log(milisegundos);
-
-    setTimeout(function () {
-      console.log('Hola Mundo');
+    setTimeout(() => {
+      console.log('Se ejecuto');
+      this.televisorService
+        .update_multimedias(
+          this.getIdsFormArray.getRawValue(),
+          this.multimedias
+        )
+        .subscribe((data) => {});
     }, milisegundos);
-
-    // this.televisorService
-    //   .update_multimedias(this.getIdsFormArray.getRawValue(), this.multimedias)
-    //   .subscribe((data) => {});
   }
 
   private calcularDiferenciaDeHoras(hora_actual, hora_inicio) {
