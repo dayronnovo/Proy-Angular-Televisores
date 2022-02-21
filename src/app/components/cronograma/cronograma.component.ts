@@ -73,21 +73,45 @@ export class CronogramaComponent implements OnInit {
     }
 
     // console.log(this.forma.getRawValue()['multimedias']);
-    let horaForm: number = this.formad.getRawValue()['hora'];
-    console.log(horaForm);
+    // console.log(horaForm);
     let horaActual: Date = new Date();
-    let hora = horaActual.getHours();
-    let minuto = horaActual.getMinutes();
-    console.log(`${hora}:${minuto}`);
+    // let hora = horaActual.getHours();
+    // let minuto = horaActual.getMinutes();
+    let hora_actual = `${horaActual.getHours()}:${horaActual.getMinutes()}`;
+    let hora_inicio = `${this.formad.getRawValue()['hora']}`;
+
+    // console.log(this.getIdsFormArray.getRawValue());
+    // console.log(this.multimedias);
+
+    let milisegundos = this.calcularDiferenciaDeHoras(hora_actual, hora_inicio);
+
+    console.log(milisegundos);
+
+    setTimeout(function () {
+      console.log('Hola Mundo');
+    }, milisegundos);
 
     // this.televisorService
-    //   .update_multimedias(this.id_televisor, this.forma.getRawValue())
+    //   .update_multimedias(this.getIdsFormArray.getRawValue(), this.multimedias)
     //   .subscribe((data) => {});
+  }
+
+  private calcularDiferenciaDeHoras(hora_actual, hora_inicio) {
+    let minutos_actual = hora_actual
+      .split(':')
+      .reduce((p, c) => parseInt(p) * 60 + parseInt(c));
+    let minutos_inicio = hora_inicio
+      .split(':')
+      .reduce((p, c) => parseInt(p) * 60 + parseInt(c));
+
+    let diferencia = minutos_inicio - minutos_actual;
+
+    return diferencia * 60 * 1000;
   }
 
   public getMultimediasDesdeImagenesComponent(multimedias: Multimedia[]) {
     this.multimedias = multimedias;
-    console.log(this.multimedias);
+    // console.log(this.multimedias);
   }
 
   // public desmarcarTodo() {

@@ -30,12 +30,10 @@ export class TelevisorService {
   }
 
   public update_multimedias(
-    id_televisor: number,
+    televisores: Televisor[],
     multimedias: Multimedia[]
   ): Observable<any> {
-    return this.http.put(
-      `${this.urlEndPoint}/update/multimedias/${id_televisor}`,
-      multimedias
-    );
+    let data = { televisores: televisores, multimedias: multimedias };
+    return this.http.put(`${this.urlEndPoint}/update/multimedias`, data);
   }
 }
