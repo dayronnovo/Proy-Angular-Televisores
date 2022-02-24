@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Injectable, Output, EventEmitter } from '@angular/core';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { Televisor } from '../models/televisores';
 import { Multimedia } from '../models/multimedia';
 
@@ -36,4 +36,8 @@ export class TelevisorService {
     let data = { televisores: televisores, multimedias: multimedias };
     return this.http.put(`${this.urlEndPoint}/update/multimedias`, data);
   }
+
+  // public setProgramacion(programacion) {
+  //   this.programacion.next(programacion);
+  // }
 }

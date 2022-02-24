@@ -1,9 +1,14 @@
-<h1>Bla</h1>
-<!-- <div id="myCarousel" class="carousel slide" data-ride="carousel">
+<div
+  id="myCarousel"
+  *ngIf="multimedias.length > 1"
+  class="carousel slide"
+  data-ride="carousel"
+>
   <div class="carousel-inner">
     <div
       *ngFor="let multimedia of multimedias; let i = index"
       [ngClass]="{ active: i == 0 }"
+      data-interval="1000"
       class="carousel-item"
     >
       <img
@@ -16,7 +21,7 @@
   </div>
 </div>
 
-<div class="embed-responsive embed-responsive-16by9">
+<!-- <div class="embed-responsive embed-responsive-16by9">
   <video>Tu navegador no soporta vídeo</video>
 </div> -->
 

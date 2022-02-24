@@ -6,6 +6,7 @@ import { TelevisorService } from '../../services/televisor.service';
 import { Televisor } from '../../models/televisores';
 import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { Multimedia } from '../../models/multimedia';
+import { CronogramaService } from '../../services/cronograma.service';
 
 @Component({
   selector: 'app-cronograma',
@@ -17,12 +18,12 @@ export class CronogramaComponent implements OnInit {
   televisores: Televisor[] = [];
   formad: FormGroup;
   multimedias: any[] = [];
-  programacion: any[] = [];
 
   constructor(
     private activatedRoute: ActivatedRoute,
     private clienteService: ClienteService,
     private televisorService: TelevisorService,
+    private cronogramaService: CronogramaService,
     private fb: FormBuilder
   ) {}
 
@@ -73,16 +74,10 @@ export class CronogramaComponent implements OnInit {
       // return;
     }
 
-    // console.log(this.forma.getRawValue()['multimedias']);
-    // console.log(horaForm);
     let horaActual: Date = new Date();
-    // let hora = horaActual.getHours();
-    // let minuto = horaActual.getMinutes();
+
     let hora_actual = `${horaActual.getHours()}:${horaActual.getMinutes()}`;
     let hora_inicio = `${this.formad.getRawValue()['hora']}`;
-
-    // console.log(this.getIdsFormArray.getRawValue());
-    // console.log(this.multimedias);
 
     let milisegundos = this.calcularDiferenciaDeHoras(hora_actual, hora_inicio);
 
@@ -95,12 +90,16 @@ export class CronogramaComponent implements OnInit {
         )
         .subscribe((data) => {});
     }, milisegundos);
-    console.log(timeId);
-    this.programacion.push({
+
+    let programacion = {
       hora_de_inicio: hora_inicio,
       multimedias: this.multimedias,
-      timeId: timeId,
-    });
+      time_id: timeId,
+      televisores: this.getIdsFormArray.getRawValue(),
+      cliente: this.cliente.id,
+    };
+
+    this.cronogramaService.create(programacion).subscribe((data) => {});
   }
 
   private calcularDiferenciaDeHoras(hora_actual, hora_inicio) {

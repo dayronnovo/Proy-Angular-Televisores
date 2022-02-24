@@ -24,6 +24,8 @@ import { ImagenesComponent } from './components/imagenes/imagenes.component';
 import { VideosComponent } from './components/videos/videos.component';
 import { RevisarCronogramaComponent } from './components/revisar-cronograma/revisar-cronograma.component';
 
+import { SwiperModule } from 'swiper/angular';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -50,6 +52,7 @@ import { RevisarCronogramaComponent } from './components/revisar-cronograma/revi
     MatFormFieldModule,
     MatInputModule,
     MatSelectModule,
+    SwiperModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

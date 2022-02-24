@@ -20,15 +20,15 @@ export class MultimediaService {
     return `${this.urlEndPoint}/file/${id}`;
   }
 
-  // public getMultimediasByTelevisorId(id: number): Observable<any> {
-  //   return this.http.get(`${this.urlEndPoint}/televisor/${id}`);
-  // }
-  // public getMultimediasByIdsAndTelevisorId(
-  //   ids: number[],
-  //   televisor_id: number
-  // ): Observable<any> {
-  //   return this.http.put(`${this.urlEndPoint}/reproducir/${televisor_id}`, ids);
-  // }
+  public getMultimediasByTelevisorId(televisor_id: number): Observable<any> {
+    return this.http.get(`${this.urlEndPoint}/televisor/${televisor_id}`);
+  }
+  public getMultimediasByIdsAndTelevisorId(
+    ids: number[],
+    televisor_id: number
+  ): Observable<any> {
+    return this.http.put(`${this.urlEndPoint}/reproducir/${televisor_id}`, ids);
+  }
 
   public get_imagenes_by_cliente_id(id: number): Observable<any> {
     return this.http.get(`${this.urlEndPoint}/imagenes/${id}`);

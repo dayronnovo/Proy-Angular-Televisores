@@ -10,6 +10,7 @@ import { VisualizarMultimediasComponent } from './components/visualizar-multimed
 import { CronogramaComponent } from './components/cronograma/cronograma.component';
 import { ImagenesComponent } from './components/imagenes/imagenes.component';
 import { VideosComponent } from './components/videos/videos.component';
+import { RevisarCronogramaComponent } from './components/revisar-cronograma/revisar-cronograma.component';
 
 const routes: Routes = [
   { path: 'clientes', component: ClientesComponent },
@@ -32,6 +33,11 @@ const routes: Routes = [
       { path: 'videos', component: VideosComponent },
       { path: '**', pathMatch: 'full', redirectTo: 'imagenes' },
     ],
+  },
+  { path: 'historial/:cliente_id', component: RevisarCronogramaComponent },
+  {
+    path: 'historial/:cliente_id/page/:page',
+    component: RevisarCronogramaComponent,
   },
   { path: '**', pathMatch: 'full', redirectTo: 'clientes' },
   // { path: '**', component: PageNotFoundComponent },
