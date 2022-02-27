@@ -5,6 +5,7 @@ import { MultimediaService } from '../../services/multimedia.service';
 import { Multimedia } from '../../models/multimedia';
 import { TelevisorService } from '../../services/televisor.service';
 import { Televisor } from '../../models/televisores';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-detalles-cliente',

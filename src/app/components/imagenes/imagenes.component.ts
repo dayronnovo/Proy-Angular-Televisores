@@ -3,7 +3,6 @@ import { Multimedia } from '../../models/multimedia';
 import { FormGroup, FormBuilder, FormArray, Validators } from '@angular/forms';
 import { MultimediaService } from '../../services/multimedia.service';
 import { ActivatedRoute } from '@angular/router';
-import { Cliente } from '../../models/cliente';
 
 @Component({
   selector: 'app-imagenes',

@@ -2,74 +2,84 @@
   <h1>Programacion del Cliente:</h1>
   <hr />
 
-  <div class="card text-center">
-    <div class="card-header">Featured</div>
-    <div
-      *ngFor="let historial of historialCronograma; let i = index"
-      class="card-body"
-    >
-      <div class="row">
-        <div class="col-2">
-          <!-- Izquierda -->
-          <div class="card text-right">
-            <div class="card-body">
-              <h3>{{ historial.hora_de_inicio }}</h3>
-            </div>
+  <div
+    *ngIf="historialCronograma.length == 0"
+    class="alert alert-warning"
+    role="alert"
+  >
+    No tiene Programaciones de hoy.
+  </div>
 
-            <button
-              *ngIf="compararHora(historial.hora_de_inicio)"
-              class="btn-sm btn-primary"
-              (click)="eliminarReproduccion(historial.timeId)"
-            >
-              Eliminar
-            </button>
+  <div *ngIf="historialCronograma.length > 0">
+    <div class="card text-center">
+      <div class="card-header">Featured</div>
+      <div
+        *ngFor="let historial of historialCronograma; let i = index"
+        class="card-body"
+      >
+        <div class="row">
+          <div class="col-2">
+            <!-- Izquierda -->
+            <div class="card text-right">
+              <div class="card-body">
+                <h3>{{ historial.hora_de_inicio }}</h3>
+              </div>
 
-            <!-- <button
-              *ngIf="reproduciendoActualmente(historial, i)"
-              class="btn-sm btn-primary"
-            >
-              Actual
-            </button> -->
-          </div>
-        </div>
-        <div class="col-6">
-          <!-- Multimedias -->
-          <div class="card">
-            <div class="card-body">
-              <h3 class="text-center">Multimedias</h3>
-              <img
-                style="width: 180px"
-                class="img-fluid"
-                src="assets\images\icono_imagen.png"
-                alt=""
-              />
+              <button
+                *ngIf="compararHora(historial.hora_de_inicio)"
+                class="btn-sm btn-primary"
+                (click)="eliminarReproduccion(historial.timeId)"
+              >
+                Eliminar
+              </button>
+
+              <!-- <button
+                *ngIf="reproduciendoActualmente(historial, i)"
+                class="btn-sm btn-primary"
+              >
+                Actual
+              </button> -->
             </div>
           </div>
-        </div>
-        <div class="col-4">
-          <!-- Televisores -->
-          <div class="card text-left">
-            <div class="card-body">
-              <h3 class="text-center">Televisores</h3>
-              <ul class="list-group list-group-flush">
-                <li
-                  *ngFor="let televisor of historial.televisores"
-                  class="list-group-item"
-                >
-                  {{ televisor.ubicacion }}
-                </li>
-              </ul>
+          <div class="col-6">
+            <!-- Multimedias -->
+            <div class="card">
+              <div class="card-body">
+                <h3 class="text-center">Multimedias</h3>
+                <img
+                  style="width: 180px"
+                  class="img-fluid"
+                  src="assets\images\icono_imagen.png"
+                  alt=""
+                />
+              </div>
+            </div>
+          </div>
+          <div class="col-4">
+            <!-- Televisores -->
+            <div class="card text-left">
+              <div class="card-body">
+                <h3 class="text-center">Televisores</h3>
+                <ul class="list-group list-group-flush">
+                  <li
+                    *ngFor="let televisor of historial.televisores"
+                    class="list-group-item"
+                  >
+                    {{ televisor.ubicacion }}
+                  </li>
+                </ul>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-  <div class="row justify-content-center mt-4">
-    <app-paginacion
-      *ngIf="paginador && ruta"
-      [paginador]="paginador"
-      [componente]="ruta"
-    ></app-paginacion>
+    <div class="row justify-content-center mt-4">
+      <app-paginacion
+        *ngIf="paginador && ruta"
+        [paginador]="paginador"
+        [componente]="ruta"
+      ></app-paginacion>
+    </div>
   </div>
 </div>

@@ -9,7 +9,7 @@ import { NavbarComponent } from './components/shared/navbar/navbar.component';
 import { ClientesComponent } from './components/clientes/clientes.component';
 import { PaginacionComponent } from './components/shared/paginacion/paginacion.component';
 import { DetallesClienteComponent } from './components/detalles-cliente/detalles-cliente.component';
-import { MultimediaComponent } from './components/multimedia/multimedia.component';
+import { MultimediaComponent } from './components/crear_multimedia/multimedia.component';
 
 import { NgDropFilesDirective } from './directivas/ng-drop-files.directive';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -25,6 +25,15 @@ import { VideosComponent } from './components/videos/videos.component';
 import { RevisarCronogramaComponent } from './components/revisar-cronograma/revisar-cronograma.component';
 
 import { SwiperModule } from 'swiper/angular';
+import { MultimediaDelTelevisorComponent } from './components/multimedias_televisor/multimedia-del-televisor/multimedia-del-televisor.component';
+import { ModalComponent } from './components/shared/modal/modal.component';
+import { MultimediasActualesComponent } from './components/multimedias_televisor/multimedias-actuales/multimedias-actuales.component';
+import { CrearClienteComponent } from './components/Forms/cliente/crear-cliente/crear-cliente.component';
+import { UpdateClienteComponent } from './components/Forms/cliente/update-cliente/update-cliente.component';
+import { ShareFormClienteComponent } from './components/Forms/cliente/share-form-cliente/share-form-cliente.component';
+import { CrearTelevisorComponent } from './components/Forms/televisor/crear-televisor/crear-televisor.component';
+import { UpdateTelevisorComponent } from './components/Forms/televisor/update-televisor/update-televisor.component';
+import { ShareFormTelevisorComponent } from './components/Forms/televisor/share-form-televisor/share-form-televisor.component';
 
 @NgModule({
   declarations: [
@@ -42,6 +51,15 @@ import { SwiperModule } from 'swiper/angular';
     ImagenesComponent,
     VideosComponent,
     RevisarCronogramaComponent,
+    MultimediaDelTelevisorComponent,
+    ModalComponent,
+    MultimediasActualesComponent,
+    CrearClienteComponent,
+    UpdateClienteComponent,
+    ShareFormClienteComponent,
+    CrearTelevisorComponent,
+    UpdateTelevisorComponent,
+    ShareFormTelevisorComponent,
   ],
   imports: [
     BrowserModule,

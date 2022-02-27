@@ -1,13 +1,23 @@
-import { HttpClient, HttpEvent, HttpRequest } from '@angular/common/http';
+import {
+  HttpClient,
+  HttpEvent,
+  HttpHeaders,
+  HttpRequest,
+} from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 import { Cliente } from '../models/cliente';
+import { catchError, map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ClienteService {
   private urlEndPoint = 'http://localhost:5000/cliente';
+
+  private httpHeader: HttpHeaders = new HttpHeaders({
+    'Content-Type': 'application/json',
+  });
 
   constructor(private http: HttpClient) {}
 
@@ -17,6 +27,30 @@ export class ClienteService {
 
   public getClienteById(id: number): Observable<Cliente> {
     return this.http.get<Cliente>(`${this.urlEndPoint}/${id}`);
+  }
+
+  public create(nombre_cliente): Observable<any> {
+    return this.http
+      .post(
+        `${this.urlEndPoint}`,
+        { nombre: nombre_cliente },
+        { headers: this.httpHeader }
+      )
+      .pipe(
+        catchError((e) => {
+          return throwError(e);
+        })
+      );
+  }
+
+  public update(cliente): Observable<any> {
+    return this.http
+      .put(`${this.urlEndPoint}`, cliente, { headers: this.httpHeader })
+      .pipe(
+        catchError((e) => {
+          return throwError(e);
+        })
+      );
   }
 
   public cargarArchivos(

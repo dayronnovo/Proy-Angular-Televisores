@@ -1,9 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { TelevisorService } from '../../services/televisor.service';
 import { CronogramaService } from '../../services/cronograma.service';
 import { ActivatedRoute } from '@angular/router';
 import { HistorialCronograma } from '../../models/historial_cronograma';
-import { Multimedia } from '../../models/multimedia';
 
 @Component({
   selector: 'app-revisar-cronograma',

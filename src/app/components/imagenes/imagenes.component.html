@@ -1,4 +1,7 @@
-<div class="card animated fadeIn">
+<div *ngIf="multimedias.length == 0" class="alert alert-warning" role="alert">
+  No tiene Multimedias.
+</div>
+<div class="card animated fadeIn" *ngIf="multimedias.length > 0">
   <div class="card-header text-center">Multimedias</div>
   <div class="card-body">
     <div class="card">
@@ -44,9 +47,9 @@
       </ul>
     </div>
 
-    <div>
-      <!-- <app-paginador *ngIf="paginador" [paginador]="paginador"></app-paginador> -->
-    </div>
+    <!-- <div>
+      <app-paginador *ngIf="paginador" [paginador]="paginador"></app-paginador>
+    </div> -->
   </div>
 </div>
 

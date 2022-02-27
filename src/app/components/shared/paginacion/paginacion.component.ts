@@ -28,6 +28,7 @@ export class PaginacionComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges) {
+    // console.log(this.paginador.number);
     let paginadorActualizado = changes['paginador'];
     if (paginadorActualizado.previousValue) {
       this.initPaginador();
@@ -44,7 +45,6 @@ export class PaginacionComponent implements OnInit, OnChanges {
         this.hasta = this.paginador.number + 2;
       }
       if (this.paginador.number > this.paginador.totalPages - 3) {
-        console.log(this.paginador.number);
         this.desde = this.paginador.totalPages - 2;
         this.hasta = this.paginador.totalPages;
       }
@@ -59,10 +59,7 @@ export class PaginacionComponent implements OnInit, OnChanges {
   }
 
   public paginaAnterior(): void {
-    this.router.navigate([
-      `/${this.componente}/page`,
-      this.paginador.number - 1,
-    ]);
+    this.router.navigate([`/${this.componente}/page`, this.paginador.number]);
   }
   public paginaSiguiente(): void {
     this.router.navigate([
