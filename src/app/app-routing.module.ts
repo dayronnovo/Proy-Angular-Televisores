@@ -40,7 +40,7 @@ const routes: Routes = [
       { path: '**', pathMatch: 'full', redirectTo: 'imagenes' },
     ],
   },
-  { path: 'historial/:cliente_id', component: RevisarCronogramaComponent },
+  // { path: 'historial/:cliente_id', component: RevisarCronogramaComponent },
   {
     path: 'historial/:cliente_id/page/:page',
     component: RevisarCronogramaComponent,

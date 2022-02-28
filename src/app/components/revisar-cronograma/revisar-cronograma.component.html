@@ -1,5 +1,24 @@
 <div class="container">
-  <h1>Programacion del Cliente:</h1>
+  <div class="row justify-content-around">
+    <h1>Programacion del Cliente:</h1>
+
+    <form [formGroup]="forma">
+      <input
+        type="date"
+        formControlName="fecha"
+        [max]="fechaActual | date: 'yyyy-MM-dd'"
+      />
+
+      <input
+        class="btn btn-outline-secondary ml-3"
+        type="button"
+        value="Buscar"
+        (click)="buscarPorFecha()"
+      />
+    </form>
+    <!-- [value]="fechaActual | date: 'yyyy-MM-dd'"
+        [max]="fechaActual | date: 'yyyy-MM-dd'" -->
+  </div>
   <hr />
 
   <div
@@ -26,7 +45,7 @@
               </div>
 
               <button
-                *ngIf="compararHora(historial.hora_de_inicio)"
+                *ngIf="compararFechaAndHora(historial)"
                 class="btn-sm btn-primary"
                 (click)="eliminarReproduccion(historial.timeId)"
               >

@@ -15,8 +15,12 @@ export class CronogramaService {
     return this.http.get<HistorialCronograma[]>(`${this.urlEndPoint}/${id}`);
   }
 
-  public getCronogramaByClienteIdWithPagination(id, page): Observable<any> {
-    return this.http.get(`${this.urlEndPoint}/${id}/${page}`);
+  public getCronogramaByClienteIdWithPagination(
+    id,
+    page,
+    fecha
+  ): Observable<any> {
+    return this.http.put(`${this.urlEndPoint}/${id}/${page}`, fecha);
   }
 
   public create(historialCronograma): Observable<any> {
