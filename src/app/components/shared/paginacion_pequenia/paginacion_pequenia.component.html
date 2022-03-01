@@ -1,0 +1,21 @@
+<ul class="pagination">
+  <!-- << Pasar a la pagina anterior -->
+
+  <li
+    class="page-item"
+    [ngClass]="paginador?.primera_pagina ? 'disabled page-item' : 'page-item'"
+  >
+    <a class="page-link mouse" (click)="paginaAnterior()">&laquo;</a>
+  </li>
+
+  <!-- >> Pasar a la proxima pagina -->
+
+  <li
+    class="page-item"
+    [ngClass]="paginador?.ultima_pagina ? 'disabled page-item' : 'page-item'"
+  >
+    <a class="page-link mouse" (click)="paginaSiguiente()">&raquo;</a>
+  </li>
+</ul>
+
+<!-- [ngClass]="paginador.number == 0 ? 'disabled page-item' -->

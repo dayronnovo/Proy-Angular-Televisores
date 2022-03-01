@@ -34,6 +34,7 @@ import { ShareFormClienteComponent } from './components/Forms/cliente/share-form
 import { CrearTelevisorComponent } from './components/Forms/televisor/crear-televisor/crear-televisor.component';
 import { UpdateTelevisorComponent } from './components/Forms/televisor/update-televisor/update-televisor.component';
 import { ShareFormTelevisorComponent } from './components/Forms/televisor/share-form-televisor/share-form-televisor.component';
+import { PaginacionPequeniaComponent } from './components/shared/paginacion_pequenia/paginacion_pequenia.component';
 
 @NgModule({
   declarations: [
@@ -60,6 +61,7 @@ import { ShareFormTelevisorComponent } from './components/Forms/televisor/share-
     CrearTelevisorComponent,
     UpdateTelevisorComponent,
     ShareFormTelevisorComponent,
+    PaginacionPequeniaComponent,
   ],
   imports: [
     BrowserModule,

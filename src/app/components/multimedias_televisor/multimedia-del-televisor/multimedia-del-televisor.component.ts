@@ -20,18 +20,18 @@ export class MultimediaDelTelevisorComponent implements OnInit {
     // this.getMultimediasByTelevisorId();
   }
 
-  public getMultimediasByTelevisorId() {
-    this.activatedRoute.params.subscribe((params) => {
-      let televisor_id = params['televisor_id'];
-      this.multimediaService
-        .getMultimediasByTelevisorId(televisor_id)
-        .subscribe((data) => {
-          this.multimedias = data as Multimedia[];
-        });
-    });
-  }
+  // public getMultimediasByTelevisorId() {
+  //   this.activatedRoute.params.subscribe((params) => {
+  //     let televisor_id = params['televisor_id'];
+  //     this.multimediaService
+  //       .getMultimediasByTelevisorId(televisor_id)
+  //       .subscribe((data) => {
+  //         this.multimedias = data as Multimedia[];
+  //       });
+  //   });
+  // }
 
-  public verArchivo(id: number): string {
-    return this.multimediaService.verFoto(id);
-  }
+  // public verArchivo(id: number): string {
+  //   return this.multimediaService.verFoto(id);
+  // }
 }

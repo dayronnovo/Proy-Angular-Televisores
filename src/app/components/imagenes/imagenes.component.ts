@@ -1,40 +1,60 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Output,
+  EventEmitter,
+  ViewChild,
+  AfterViewChecked,
+  ChangeDetectorRef,
+} from '@angular/core';
 import { Multimedia } from '../../models/multimedia';
 import { FormGroup, FormBuilder, FormArray, Validators } from '@angular/forms';
 import { MultimediaService } from '../../services/multimedia.service';
 import { ActivatedRoute } from '@angular/router';
+import { Paginador } from '../../models/paginador';
+import { CompartirEventoService } from '../../services/compartir-evento.service';
 
 @Component({
   selector: 'app-imagenes',
   templateUrl: './imagenes.component.html',
   styles: [],
 })
-export class ImagenesComponent implements OnInit {
-  multimedias: Multimedia[] = [];
-  // @Input() cliente: Cliente;
-  @Output() multimediasEscogidas: EventEmitter<any>;
+export class ImagenesComponent implements OnInit, AfterViewChecked {
   forma: FormGroup;
+  multimedias_total: Multimedia[] = [];
+  paginador: Paginador;
+  cantidad_por_pagina: number = 3;
+  @Output() multimediasEscogidas: EventEmitter<any>;
 
   constructor(
     private multimediaService: MultimediaService,
     private activatedRoute: ActivatedRoute,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private compartirEventoService: CompartirEventoService,
+    private cdRef: ChangeDetectorRef
   ) {
     this.multimediasEscogidas = new EventEmitter();
   }
+  ngAfterViewChecked(): void {
+    this.compartirEventoService.emitir_evento.subscribe((paginador) => {
+      this.paginador = paginador;
+    });
+    this.cdRef.detectChanges();
+  }
 
   ngOnInit(): void {
-    this.getMultimediasByClienteId();
     this.crearFormulario();
+    this.getMultimediasByClienteId();
   }
 
   public getMultimediasByClienteId() {
     this.activatedRoute.params.subscribe((params) => {
       let cliente_id = params['cliente_id'];
+
       this.multimediaService
         .getMultimediasByClienteId(cliente_id)
         .subscribe((response) => {
-          this.multimedias = response as Multimedia[];
+          this.multimedias_total = response as Multimedia[];
         });
     });
   }
@@ -98,7 +118,7 @@ export class ImagenesComponent implements OnInit {
 
   public marcarTodo() {
     this.desmarcarTodo();
-    this.multimedias.forEach((multimedia) => {
+    this.paginador.multimedias.forEach((multimedia) => {
       this.getIdsFormArray.push(this.fb.control(multimedia));
     });
   }
