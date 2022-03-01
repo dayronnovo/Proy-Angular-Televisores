@@ -6,11 +6,11 @@
   <div class="card-body">
     <div class="card">
       <ul
-        *ngIf="paginador?.multimedias.length > 0"
+        *ngIf="paginador?.entities.length > 0"
         class="list-group list-group-flush"
       >
         <li
-          *ngFor="let multimedia of paginador?.multimedias; let i = index"
+          *ngFor="let multimedia of paginador?.entities; let i = index"
           class="list-group-item"
         >
           <form [formGroup]="forma">
@@ -52,7 +52,7 @@
 
     <div class="row justify-content-center mt-3">
       <app-paginacion-pequenia
-        *ngIf="multimedias_total?.length > 0 || paginador"
+        *ngIf="multimedias_total?.length > 0 || paginador?.total_de_paginas > 1"
         [entities_total]="multimedias_total"
         [paginador]="paginador"
         [cantidad_por_pagina]="cantidad_por_pagina"

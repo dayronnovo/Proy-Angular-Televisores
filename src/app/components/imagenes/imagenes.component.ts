@@ -10,7 +10,7 @@ import { Multimedia } from '../../models/multimedia';
 import { FormGroup, FormBuilder, FormArray, Validators } from '@angular/forms';
 import { MultimediaService } from '../../services/multimedia.service';
 import { ActivatedRoute } from '@angular/router';
-import { Paginador } from '../../models/paginador';
+import { Paginador } from '../shared/paginacion_pequenia/paginador';
 import { CompartirEventoService } from '../../services/compartir-evento.service';
 
 @Component({
@@ -117,7 +117,7 @@ export class ImagenesComponent implements OnInit, AfterViewChecked {
 
   public marcarTodo() {
     this.desmarcarTodo();
-    this.paginador.multimedias.forEach((multimedia) => {
+    this.paginador.entities.forEach((multimedia) => {
       this.getIdsFormArray.push(this.fb.control(multimedia));
     });
   }

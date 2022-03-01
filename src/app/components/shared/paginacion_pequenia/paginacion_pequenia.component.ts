@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Paginador } from '../../../models/paginador';
+import { Paginador } from './paginador';
 import { CompartirEventoService } from '../../../services/compartir-evento.service';
 
 @Component({

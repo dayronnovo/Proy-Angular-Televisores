@@ -36,7 +36,10 @@
           <div class="card text-center">
             <div class="card-header">Televisores</div>
             <div class="card-body">
-              <div *ngFor="let televisor of televisores" class="col-auto my-1">
+              <div
+                *ngFor="let televisor of paginador?.entities"
+                class="col-auto my-1"
+              >
                 <div class="custom-control custom-checkbox mr-sm-2">
                   <form [formGroup]="formad">
                     <input
@@ -54,6 +57,44 @@
                   </form>
                 </div>
               </div>
+              <!-- Aqui va la paginacion -->
+              <div
+                *ngIf="paginador?.total_de_paginas > 1"
+                class="row justify-content-center mt-3"
+              >
+                <ul class="pagination">
+                  <!-- << Pasar a la pagina anterior -->
+
+                  <li
+                    class="page-item"
+                    [ngClass]="
+                      paginador?.primera_pagina
+                        ? 'disabled page-item'
+                        : 'page-item'
+                    "
+                  >
+                    <a class="page-link mouse" (click)="paginaAnterior()"
+                      >&laquo;</a
+                    >
+                  </li>
+
+                  <!-- >> Pasar a la proxima pagina -->
+
+                  <li
+                    class="page-item"
+                    [ngClass]="
+                      paginador?.ultima_pagina
+                        ? 'disabled page-item'
+                        : 'page-item'
+                    "
+                  >
+                    <a class="page-link mouse" (click)="paginaSiguiente()"
+                      >&raquo;</a
+                    >
+                  </li>
+                </ul>
+              </div>
+              <!-- Fin de la paginacion -->
             </div>
           </div>
         </div>
@@ -65,7 +106,7 @@
   </div>
 </div>
 
-<div class="col-12">
+<!-- <div class="col-12">
   <pre>
   Estado del Formulario: {{ formad.valid }}
   Status: {{ formad.status }}
@@ -73,4 +114,4 @@
   <pre>
   {{ formad.value | json }}
   </pre>
-</div>
+</div> -->

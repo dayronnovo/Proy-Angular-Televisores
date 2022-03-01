@@ -7,6 +7,8 @@ import { Televisor } from '../../models/televisores';
 import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { Multimedia } from '../../models/multimedia';
 import { CronogramaService } from '../../services/cronograma.service';
+import { Paginador } from '../shared/paginacion_pequenia/paginador';
+import { CompartirEventoService } from '../../services/compartir-evento.service';
 
 @Component({
   selector: 'app-cronograma',
@@ -15,16 +17,21 @@ import { CronogramaService } from '../../services/cronograma.service';
 })
 export class CronogramaComponent implements OnInit {
   cliente: Cliente;
-  televisores: Televisor[] = [];
   formad: FormGroup;
   multimedias: any[] = [];
+  televisores_total: Televisor[] = [];
+
+  cantidad_por_pagina: number = 6;
+  paginadores: Paginador[] = [];
+  paginador: Paginador;
 
   constructor(
     private activatedRoute: ActivatedRoute,
     private clienteService: ClienteService,
     private televisorService: TelevisorService,
     private cronogramaService: CronogramaService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private compartirEventoService: CompartirEventoService
   ) {}
 
   ngOnInit(): void {
@@ -50,7 +57,10 @@ export class CronogramaComponent implements OnInit {
     this.televisorService
       .getTelevisoresByClienteId(this.cliente.id)
       .subscribe((response) => {
-        this.televisores = response as Televisor[];
+        this.televisores_total = response as Televisor[];
+        // Paginador
+        this.crearPaginador();
+        this.inicializarPaginador();
       });
   }
 
@@ -152,5 +162,44 @@ export class CronogramaComponent implements OnInit {
   }
   public mensajeRequerido(campo: string): boolean {
     return this.formad.get(campo).errors.required;
+  }
+
+  // Metodos para el Paginador
+  public crearPaginador() {
+    let total_de_entities: number = this.televisores_total.length;
+    let total_de_paginas: number = Math.ceil(
+      total_de_entities / this.cantidad_por_pagina
+    );
+
+    for (let cont = 1; cont <= total_de_paginas; cont++) {
+      let entities: any[] = [];
+      for (let cont2 = 0; cont2 < this.cantidad_por_pagina; cont2++) {
+        let entity = this.televisores_total.shift();
+        if (entity) entities.push(entity);
+      }
+      this.paginadores.push(
+        new Paginador(
+          cont,
+          entities,
+          total_de_entities,
+          total_de_paginas,
+          cont == 1,
+          cont == total_de_paginas
+        )
+      );
+    }
+  }
+
+  public inicializarPaginador() {
+    this.paginador = this.paginadores[0];
+  }
+
+  public paginaAnterior(): void {
+    let index = this.paginadores.indexOf(this.paginador);
+    this.paginador = this.paginadores[index - 1];
+  }
+  public paginaSiguiente(): void {
+    let index = this.paginadores.indexOf(this.paginador);
+    this.paginador = this.paginadores[index + 1];
   }
 }
