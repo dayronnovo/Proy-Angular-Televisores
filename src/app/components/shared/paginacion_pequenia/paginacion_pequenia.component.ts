@@ -1,6 +1,5 @@
-import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Paginador } from '../../../models/paginador';
-import { Multimedia } from '../../../models/multimedia';
 import { CompartirEventoService } from '../../../services/compartir-evento.service';
 
 @Component({
@@ -9,7 +8,7 @@ import { CompartirEventoService } from '../../../services/compartir-evento.servi
   styleUrls: ['./paginacion_pequenia.component.css'],
 })
 export class PaginacionPequeniaComponent implements OnInit {
-  @Input() multimedias_total: any[] = [];
+  @Input() entities_total: any[] = [];
   @Input() paginador: Paginador = null;
   @Input() cantidad_por_pagina: number;
   paginadores: Paginador[] = [];
@@ -22,21 +21,21 @@ export class PaginacionPequeniaComponent implements OnInit {
   }
 
   public crearPaginador() {
-    let total_de_entities: number = this.multimedias_total.length;
+    let total_de_entities: number = this.entities_total.length;
     let total_de_paginas: number = Math.ceil(
       total_de_entities / this.cantidad_por_pagina
     );
 
     for (let cont = 1; cont <= total_de_paginas; cont++) {
-      let multimedias: Multimedia[] = [];
+      let entities: any[] = [];
       for (let cont2 = 0; cont2 < this.cantidad_por_pagina; cont2++) {
-        let multimedia = this.multimedias_total.shift();
-        if (multimedia) multimedias.push(multimedia);
+        let entity = this.entities_total.shift();
+        if (entity) entities.push(entity);
       }
       this.paginadores.push(
         new Paginador(
           cont,
-          multimedias,
+          entities,
           total_de_entities,
           total_de_paginas,
           cont == 1,

@@ -3,7 +3,6 @@ import {
   OnInit,
   Output,
   EventEmitter,
-  ViewChild,
   AfterViewChecked,
   ChangeDetectorRef,
 } from '@angular/core';
