@@ -3,6 +3,8 @@ import { CronogramaService } from '../../services/cronograma.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HistorialCronograma } from '../../models/historial_cronograma';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { ClienteService } from '../../services/cliente.service';
+import { Cliente } from '../../models/cliente';
 
 @Component({
   selector: 'app-revisar-cronograma',
@@ -14,12 +16,14 @@ export class RevisarCronogramaComponent implements OnInit {
   actualReproduciendo: HistorialCronograma;
   paginador: any;
   ruta: string = null;
-  cliente_id: number;
+  // cliente_id: number;
+  cliente: Cliente;
   fechaActual: string = new Date().toISOString().split('T')[0];
   forma: FormGroup;
 
   constructor(
     private cronogramaService: CronogramaService,
+    private clienteService: ClienteService,
     private activatedRoute: ActivatedRoute,
     private fb: FormBuilder,
     private router: Router
@@ -27,25 +31,36 @@ export class RevisarCronogramaComponent implements OnInit {
 
   ngOnInit(): void {
     this.crearFormulario();
-    this.getProgramacion();
+    this.getClienteById();
+    console.log('ngOnInit');
   }
 
   crearFormulario() {
     this.forma = this.fb.group({
+      // fecha: ['2022-02-22', Validators.required],
       fecha: [new Date().toISOString().split('T')[0], Validators.required],
     });
   }
 
+  public getClienteById() {
+    let cliente_id = this.activatedRoute.snapshot.params['cliente_id'];
+
+    this.clienteService.getClienteById(cliente_id).subscribe((data) => {
+      this.cliente = data;
+      this.ruta = `historial/${this.cliente.id}`;
+      this.getProgramacion();
+    });
+  }
+
   public getProgramacion() {
+    console.log('GetProgramacion');
     this.activatedRoute.params.subscribe((params) => {
-      this.cliente_id = params['cliente_id'];
-      this.ruta = `historial/${this.cliente_id}`;
       let page = params['page'];
       if (!page) page = 0;
 
       this.cronogramaService
         .getCronogramaByClienteIdWithPagination(
-          this.cliente_id,
+          this.cliente.id,
           page,
           this.forma.getRawValue()
         )
@@ -74,8 +89,34 @@ export class RevisarCronogramaComponent implements OnInit {
   }
 
   public buscarPorFecha() {
-    this.router.navigate(['/historial', this.cliente_id, 'page', 1]);
-    this.getProgramacion();
+    let page = this.activatedRoute.snapshot.params['page'];
+    if (page > 1)
+      this.router.navigate(['/historial', this.cliente.id, 'page', 1]);
+    else {
+      this.cronogramaService
+        .getCronogramaByClienteIdWithPagination(
+          this.cliente.id,
+          1,
+          this.forma.getRawValue()
+        )
+        .subscribe((data) => {
+          this.historialCronograma = data.historiales;
+          this.paginador = data.pageable;
+        });
+    }
+
+    // console.log('BuscarPorFecha');
+    // this.router.navigate(['/historial', this.cliente.id, 'page', 1]);
+    // this.cronogramaService
+    //   .getCronogramaByClienteIdWithPagination(
+    //     this.cliente.id,
+    //     1,
+    //     this.forma.getRawValue()
+    //   )
+    //   .subscribe((data) => {
+    //     this.historialCronograma = data.historiales;
+    //     this.paginador = data.pageable;
+    //   });
   }
 
   // public reproduciendoActualmente(

@@ -1,8 +1,8 @@
 <div class="container">
   <div class="row justify-content-around">
-    <h1>Programacion del Cliente:</h1>
+    <h1>Programacion de: {{ cliente?.nombre }}</h1>
 
-    <form [formGroup]="forma">
+    <form [formGroup]="forma" (ngSubmit)="buscarPorFecha()">
       <input
         type="date"
         formControlName="fecha"
@@ -11,9 +11,8 @@
 
       <input
         class="btn btn-outline-secondary ml-3"
-        type="button"
+        type="submit"
         value="Buscar"
-        (click)="buscarPorFecha()"
       />
     </form>
     <!-- [value]="fechaActual | date: 'yyyy-MM-dd'"

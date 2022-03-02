@@ -11,15 +11,16 @@ export class CronogramaService {
 
   constructor(private http: HttpClient) {}
 
-  public getCronogramaByClienteId(id): Observable<HistorialCronograma[]> {
-    return this.http.get<HistorialCronograma[]>(`${this.urlEndPoint}/${id}`);
-  }
+  // public getCronogramaByClienteId(id): Observable<HistorialCronograma[]> {
+  //   return this.http.get<HistorialCronograma[]>(`${this.urlEndPoint}/${id}`);
+  // }
 
   public getCronogramaByClienteIdWithPagination(
     id,
     page,
     fecha
   ): Observable<any> {
+    console.log(`CronogramaService: ${fecha['fecha']}`);
     return this.http.put(`${this.urlEndPoint}/${id}/${page}`, fecha);
   }
 
