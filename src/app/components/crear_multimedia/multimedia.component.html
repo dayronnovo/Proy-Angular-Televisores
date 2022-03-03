@@ -75,4 +75,15 @@
       </div>
     </div>
   </div>
+
+  <div
+    *ngIf="mensaje_validacion"
+    class="alert alert-warning alert-dismissible fade show mt-5"
+    role="alert"
+  >
+    {{ mensaje_validacion }}
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
 </div>

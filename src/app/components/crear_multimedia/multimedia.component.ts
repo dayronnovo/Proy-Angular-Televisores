@@ -7,7 +7,9 @@ import { HttpEventType } from '@angular/common/http';
 import { FileItem } from '../../models/file_item';
 import { Cliente } from '../../models/cliente';
 import { ClienteService } from '../../services/cliente.service';
+import { CompartirEventoService } from '../../services/compartir-evento.service';
 
+declare var $: any;
 @Component({
   selector: 'app-multimedia',
   templateUrl: './multimedia.component.html',
@@ -22,15 +24,21 @@ export class MultimediaComponent implements OnInit {
   cliente: Cliente;
   tamanioImagenEnMB: number = 10;
   tamanioVideoEnMB: number = 80;
+  mensaje_validacion: string;
 
   constructor(
     private multimediaService: MultimediaService,
     private activatedRoute: ActivatedRoute,
-    private clienteService: ClienteService
+    private clienteService: ClienteService,
+    private compartirEventoService: CompartirEventoService
   ) {}
 
   ngOnInit(): void {
     this.getCliente();
+    this.lanzar_mensaje_de_validacion();
+    // this.compartirEventoService.emitir_evento.subscribe((evento) => {
+    //   console.log(evento);
+    // });
   }
 
   public getCliente() {
@@ -68,5 +76,18 @@ export class MultimediaComponent implements OnInit {
   public prevenirImagenOpen(event) {
     event.preventDefault();
     event.stopPropagation();
+  }
+
+  public lanzar_mensaje_de_validacion() {
+    this.compartirEventoService.emitir_evento.subscribe((evento) => {
+      this.cerrar_alerta();
+      this.mensaje_validacion = evento;
+    });
+  }
+
+  public cerrar_alerta() {
+    setTimeout(() => {
+      this.mensaje_validacion = null;
+    }, 10000);
   }
 }

@@ -1,4 +1,5 @@
 import { FileItem } from '../models/file_item';
+import { CompartirEventoService } from '../services/compartir-evento.service';
 import {
   Directive,
   EventEmitter,
@@ -12,7 +13,8 @@ import {
   selector: '[appNgDropFiles]',
 })
 export class NgDropFilesDirective {
-  constructor() {}
+  extensiones_videos_permitidas: string[] = ['mp4', 'webm', 'ogg'];
+  constructor(private compartirEventoService: CompartirEventoService) {}
   @Input() archivos: FileItem[] = [];
   @Output() mouseSobre: EventEmitter<boolean> = new EventEmitter();
   @Input() tamanioImagenEnMB: number;
@@ -69,10 +71,23 @@ export class NgDropFilesDirective {
   }
 
   private validarTamanioDeArhivo(archivo: File): boolean {
+    let result: boolean = false;
     if (archivo.type.startsWith('image')) {
-      return this.tamanioImagenEnMB > archivo.size / 1024 / 1024;
+      result = this.tamanioImagenEnMB > archivo.size / 1024 / 1024;
+      if (!result) {
+        this.emitir_error_de_validacion(
+          `El tamaño maximo de las imagenes es de ${this.tamanioImagenEnMB} MB.`
+        );
+      }
+      return result;
     } else if (archivo.type.startsWith('video')) {
-      return this.tamanioVideoEnMB > archivo.size / 1024 / 1024;
+      result = this.tamanioVideoEnMB > archivo.size / 1024 / 1024;
+      if (!result) {
+        this.emitir_error_de_validacion(
+          `El tamaño maximo de los videos es de ${this.tamanioVideoEnMB} MB.`
+        );
+      }
+      return result;
     }
   }
   // Prevenir que al soltar la imagen al drop el buscador no la abra.
@@ -85,6 +100,9 @@ export class NgDropFilesDirective {
     for (const archivo of this.archivos) {
       if (archivo.nombreArchivo === nombreArchivo) {
         console.log(`El archivo ${nombreArchivo} ya esta agregado.`);
+        this.emitir_error_de_validacion(
+          `El archivo ${nombreArchivo} ya esta agregado.`
+        );
         return true;
       }
     }
@@ -92,8 +110,36 @@ export class NgDropFilesDirective {
   }
 
   private validarTipoDeArchivo(tipoArchivo: string): boolean {
-    return tipoArchivo === '' || tipoArchivo === undefined
-      ? false
-      : tipoArchivo.startsWith('image') || tipoArchivo.startsWith('video');
+    let result =
+      tipoArchivo === '' || tipoArchivo === undefined
+        ? false
+        : tipoArchivo.startsWith('image') || tipoArchivo.startsWith('video');
+
+    if (!result) {
+      this.emitir_error_de_validacion('Solo pueden ser imagenes y videos.');
+      return result;
+    }
+
+    if (result) result = this.validarExtensionDeVideo(tipoArchivo);
+    return result;
+  }
+
+  private validarExtensionDeVideo(tipoArchivo) {
+    if (tipoArchivo.startsWith('video')) {
+      let extension = tipoArchivo.split('/')[1];
+      let re = this.extensiones_videos_permitidas.includes(extension);
+      if (!re) {
+        this.emitir_error_de_validacion(
+          'Los formatos de video permitidos son MP4, WEBM y OGG'
+        );
+      }
+      return re;
+    } else {
+      return false;
+    }
+  }
+
+  public emitir_error_de_validacion(mensaje) {
+    this.compartirEventoService.emitir_evento.emit(mensaje);
   }
 }
