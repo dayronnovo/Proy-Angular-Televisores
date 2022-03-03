@@ -25,6 +25,7 @@ export class CronogramaService {
   }
 
   public create(historialCronograma): Observable<any> {
+    console.log(historialCronograma);
     return this.http.post(`${this.urlEndPoint}`, historialCronograma);
   }
 }

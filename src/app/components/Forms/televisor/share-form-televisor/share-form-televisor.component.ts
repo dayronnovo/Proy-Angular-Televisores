@@ -86,7 +86,7 @@ export class ShareFormTelevisorComponent implements OnInit {
         .create(this.forma.getRawValue()['ubicacion'], this.cliente_id)
         .subscribe(
           (response) => {
-            this.router.navigate(['/clientes']);
+            this.router.navigate(['/cliente/detalles', this.cliente_id]);
             Swal.fire('', `Televisor creado con exito`, 'success');
           },
           (err) => {

@@ -1,6 +1,12 @@
+<img
+  *ngIf="multimedias.length == 0"
+  class="img-fluid"
+  src="assets\images\no_disponible.webp"
+  alt="First slide"
+/>
 <div
   id="myCarousel"
-  *ngIf="multimedias.length > 1"
+  *ngIf="multimedias.length >= 1"
   class="carousel slide"
   data-ride="carousel"
 >
@@ -17,13 +23,14 @@
         [src]="verArchivo(multimedia.id)"
         alt="First slide"
       />
+      <div
+        *ngIf="multimedia.tipo_archivo.startsWith('video')"
+        class="embed-responsive embed-responsive-16by9"
+      >
+        <video [src]="verArchivo(multimedia.id) | domSeguro" autoplay muted>
+          Tu navegador no soporta vídeo
+        </video>
+      </div>
     </div>
   </div>
 </div>
-
-<!-- <div class="embed-responsive embed-responsive-16by9">
-  <video>Tu navegador no soporta vídeo</video>
-</div> -->
-
-<!-- *ngIf="multimedia.tipo_archivo.startsWith('video')" -->
-<!-- [src]="verArchivo(multimedia.id) | domSeguro" -->

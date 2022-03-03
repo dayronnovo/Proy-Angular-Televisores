@@ -2,15 +2,6 @@ import { Component, OnInit, ViewEncapsulation, ViewChild } from '@angular/core';
 import { Multimedia } from '../../models/multimedia';
 import { MultimediaService } from '../../services/multimedia.service';
 import { ActivatedRoute } from '@angular/router';
-import { SwiperComponent } from 'swiper/angular';
-
-import Swiper, {
-  Autoplay,
-  Pagination,
-  Navigation,
-  SwiperOptions,
-} from 'swiper';
-// SwiperCore.use([Autoplay, Pagination, Navigation]);
 
 declare var $: any;
 @Component({
@@ -20,6 +11,7 @@ declare var $: any;
 })
 export class VisualizarMultimediasComponent implements OnInit {
   multimedias: Multimedia[] = [];
+  equal = require('esequal');
 
   constructor(
     private multimediaService: MultimediaService,
@@ -28,16 +20,30 @@ export class VisualizarMultimediasComponent implements OnInit {
 
   ngOnInit(): void {
     this.getMultimediasByTelevisorId();
+    setInterval(() => {
+      console.log(this.multimedias);
+      this.getMultimediasByTelevisorId();
+    }, 3000);
   }
 
   public getMultimediasByTelevisorId() {
+    console.log('Entro');
     this.activatedRoute.params.subscribe((params) => {
       let id = params['televisor_id'];
       this.multimediaService
         .getMultimediasByTelevisorId(id)
         .subscribe((response) => {
-          this.multimedias = response as Multimedia[];
-          console.log(response);
+          if (
+            this.multimedias.length == 0 ||
+            this.multimedias.length != response.length
+          ) {
+            this.multimedias = response;
+          } else {
+            if (!this.equal(this.multimedias, response)) {
+              this.multimedias = response;
+            }
+          }
+          // console.log(response);
           // console.log(this.multimedias);
         });
     });

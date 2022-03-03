@@ -32,7 +32,6 @@ export class RevisarCronogramaComponent implements OnInit {
   ngOnInit(): void {
     this.crearFormulario();
     this.getClienteById();
-    console.log('ngOnInit');
   }
 
   crearFormulario() {

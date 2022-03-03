@@ -1,4 +1,5 @@
-<div class="container">
+<app-navbar></app-navbar>
+<div class="container mt-3">
   <h1>Cliente: {{ cliente?.nombre }}</h1>
   <hr />
   <div class="card text-center">
@@ -47,6 +48,7 @@
                       class="custom-control-input"
                       [id]="getLabelAndFor(televisor)"
                       [value]="televisor"
+                      [checked]="marcarElCheckboxes(televisor)"
                       (change)="onCheckboxChange(televisor, $event)"
                     />
                     <label

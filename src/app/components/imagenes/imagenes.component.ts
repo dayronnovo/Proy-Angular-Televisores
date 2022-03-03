@@ -103,8 +103,8 @@ export class ImagenesComponent implements OnInit, AfterViewChecked {
   public marcarElCheckboxes(option): boolean {
     let arreglo: any[] = this.getIdsFormArray.getRawValue();
     let resp: boolean = false;
-    arreglo.forEach((multimedia) => {
-      if (multimedia.id == option.id) {
+    arreglo.forEach((id) => {
+      if (id == option.id) {
         resp = true;
       }
     });

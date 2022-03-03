@@ -20,8 +20,12 @@ export class MultimediaService {
     return `${this.urlEndPoint}/file/${id}`;
   }
 
-  public getMultimediasByTelevisorId(televisor_id: number): Observable<any> {
-    return this.http.get(`${this.urlEndPoint}/televisor/${televisor_id}`);
+  public getMultimediasByTelevisorId(
+    televisor_id: number
+  ): Observable<Multimedia[]> {
+    return this.http.get<Multimedia[]>(
+      `${this.urlEndPoint}/televisor/${televisor_id}`
+    );
   }
   public getMultimediasByIdsAndTelevisorId(
     ids: number[],

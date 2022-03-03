@@ -9,6 +9,7 @@ import { Multimedia } from '../../models/multimedia';
 import { CronogramaService } from '../../services/cronograma.service';
 import { Paginador } from '../shared/paginacion_pequenia/paginador';
 import { CompartirEventoService } from '../../services/compartir-evento.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-cronograma',
@@ -21,7 +22,7 @@ export class CronogramaComponent implements OnInit {
   multimedias: any[] = [];
   televisores_total: Televisor[] = [];
 
-  cantidad_por_pagina: number = 6;
+  cantidad_por_pagina: number = 3;
   paginadores: Paginador[] = [];
   paginador: Paginador;
 
@@ -72,6 +73,17 @@ export class CronogramaComponent implements OnInit {
     });
   }
 
+  public marcarElCheckboxes(option): boolean {
+    let arreglo: any[] = this.getIdsFormArray.getRawValue();
+    let resp: boolean = false;
+    arreglo.forEach((id) => {
+      if (id == option.id) {
+        resp = true;
+      }
+    });
+    return resp;
+  }
+
   get getIdsFormArray(): FormArray {
     return this.formad.get('televisores') as FormArray;
   }
@@ -109,7 +121,9 @@ export class CronogramaComponent implements OnInit {
       cliente: this.cliente.id,
     };
 
-    this.cronogramaService.create(programacion).subscribe((data) => {});
+    this.cronogramaService.create(programacion).subscribe((data) => {
+      Swal.fire('', `Cronograma creado con exito`, 'success');
+    });
   }
 
   private calcularDiferenciaDeHoras(hora_actual, hora_inicio) {
