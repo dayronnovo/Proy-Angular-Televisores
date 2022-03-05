@@ -21,9 +21,9 @@ import { UpdateTelevisorComponent } from './components/Forms/televisor/update-te
 const routes: Routes = [
   { path: 'clientes', component: ClientesComponent },
   { path: 'clientes/page/:page', component: ClientesComponent },
-  { path: 'cliente/detalles/:id', component: DetallesClienteComponent },
+  { path: 'cliente/detalles/:cliente_id', component: DetallesClienteComponent },
   {
-    path: 'cliente/detalles/:id/page/:page',
+    path: 'cliente/detalles/:cliente_id/page/:page',
     component: DetallesClienteComponent,
   },
   { path: 'multimedia/cliente/:cliente_id', component: MultimediaComponent },

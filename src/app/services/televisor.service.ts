@@ -30,7 +30,7 @@ export class TelevisorService {
   ): Observable<any> {
     return this.http.get(`${this.urlEndPoint}/cliente/${id}/${page}`);
   }
-  public getTelevisoresByClienteId(id: string): Observable<any> {
+  public getTelevisoresByClienteId(id: number): Observable<any> {
     return this.http.get(`${this.urlEndPoint}/cliente/${id}`).pipe(
       catchError((e) => {
         return throwError(e);

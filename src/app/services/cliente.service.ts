@@ -55,12 +55,12 @@ export class ClienteService {
 
   public cargarArchivos(
     archivo: File,
-    cliente_id: string
+    cliente_id: number
   ): Observable<HttpEvent<{}>> {
     let formData = new FormData();
 
     formData.append('archivo', archivo);
-    formData.append('cliente_id', cliente_id);
+    formData.append('cliente_id', `${cliente_id}`);
 
     // let televisor = new Televisor();
     // televisor.id = 2;

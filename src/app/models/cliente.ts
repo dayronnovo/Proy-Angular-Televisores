@@ -1,6 +1,6 @@
 import { Multimedia } from './multimedia';
 export class Cliente {
-  id: string;
+  id: number;
   nombre: string;
   multimedias?: Multimedia;
 }
