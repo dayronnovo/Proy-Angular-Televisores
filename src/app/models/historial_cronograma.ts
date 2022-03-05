@@ -1,5 +1,6 @@
 import { Multimedia } from './multimedia';
 import { Televisor } from './televisores';
+import { Paginador } from '../components/shared/paginacion_pequenia/paginador';
 export class HistorialCronograma {
   id: number;
   fecha: string;
@@ -7,4 +8,5 @@ export class HistorialCronograma {
   time_id: number;
   multimedias: Multimedia[];
   televisores: Televisor[];
+  paginador_televisores?: Paginador = null;
 }

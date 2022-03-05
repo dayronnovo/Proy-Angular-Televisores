@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { Paginador } from './paginador';
 import { CompartirEventoService } from '../../../services/compartir-evento.service';
 
@@ -13,6 +13,8 @@ export class PaginacionPequeniaComponent implements OnInit {
   @Input() cantidad_por_pagina: number;
   paginadores: Paginador[] = [];
 
+  @Output() emitir_evento_del_paginador: EventEmitter<any> = new EventEmitter();
+
   constructor(private compartirEventoService: CompartirEventoService) {}
 
   ngOnInit(): void {
@@ -25,6 +27,10 @@ export class PaginacionPequeniaComponent implements OnInit {
     let total_de_paginas: number = Math.ceil(
       total_de_entities / this.cantidad_por_pagina
     );
+
+    console.log(`Total de entidades en Paginador: ${this.entities_total}`);
+    // console.log(total_de_entities);
+    // console.log(total_de_paginas);
 
     for (let cont = 1; cont <= total_de_paginas; cont++) {
       let entities: any[] = [];
@@ -46,17 +52,20 @@ export class PaginacionPequeniaComponent implements OnInit {
   }
 
   public inicializarPaginador() {
-    this.compartirEventoService.emitir_evento.emit(this.paginadores[0]);
+    // this.compartirEventoService.emitir_evento.emit(this.paginadores[0]);
+    this.emitir_evento_del_paginador.emit(this.paginadores[0]);
   }
 
   public paginaAnterior(): void {
     let index = this.paginadores.indexOf(this.paginador);
     this.paginador = this.paginadores[index - 1];
-    this.compartirEventoService.emitir_evento.emit(this.paginador);
+    // this.compartirEventoService.emitir_evento.emit(this.paginador);
+    this.emitir_evento_del_paginador.emit(this.paginador);
   }
   public paginaSiguiente(): void {
     let index = this.paginadores.indexOf(this.paginador);
     this.paginador = this.paginadores[index + 1];
-    this.compartirEventoService.emitir_evento.emit(this.paginador);
+    // this.compartirEventoService.emitir_evento.emit(this.paginador);
+    this.emitir_evento_del_paginador.emit(this.paginador);
   }
 }

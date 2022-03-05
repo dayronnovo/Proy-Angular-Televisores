@@ -20,7 +20,7 @@ export class CronogramaService {
     page,
     fecha
   ): Observable<any> {
-    console.log(`CronogramaService: ${fecha['fecha']}`);
+    // console.log(`CronogramaService: ${fecha['fecha']}`);
     return this.http.put(`${this.urlEndPoint}/${id}/${page}`, fecha);
   }
 

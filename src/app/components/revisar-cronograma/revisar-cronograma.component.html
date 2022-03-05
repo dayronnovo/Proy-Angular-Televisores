@@ -1,21 +1,33 @@
 <app-navbar></app-navbar>
 <div class="container mt-3">
-  <div class="row justify-content-around">
-    <h1>Programacion de: {{ cliente?.nombre }}</h1>
+  <div class="row">
+    <div class="col-2">
+      <button
+        [routerLink]="['/cliente/detalles', cliente?.id]"
+        class="btn btn-sm btn-outline-primary"
+      >
+        <i class="fas fa-arrow-left"></i>
+      </button>
+    </div>
+    <div class="col-6">
+      <h1>Programacion de: {{ cliente?.nombre }}</h1>
+    </div>
 
-    <form [formGroup]="forma" (ngSubmit)="buscarPorFecha()">
-      <input
-        type="date"
-        formControlName="fecha"
-        [max]="fechaActual | date: 'yyyy-MM-dd'"
-      />
+    <div class="col-4">
+      <form [formGroup]="forma" (ngSubmit)="buscarPorFecha()">
+        <input
+          type="date"
+          formControlName="fecha"
+          [max]="fechaActual | date: 'yyyy-MM-dd'"
+        />
 
-      <input
-        class="btn btn-outline-secondary ml-3"
-        type="submit"
-        value="Buscar"
-      />
-    </form>
+        <input
+          class="btn btn-outline-secondary ml-3"
+          type="submit"
+          value="Buscar"
+        />
+      </form>
+    </div>
     <!-- [value]="fechaActual | date: 'yyyy-MM-dd'"
         [max]="fechaActual | date: 'yyyy-MM-dd'" -->
   </div>
@@ -84,13 +96,25 @@
                 <h3 class="text-center">Televisores</h3>
                 <ul class="list-group list-group-flush">
                   <li
-                    *ngFor="let televisor of historial.televisores"
+                    *ngFor="
+                      let televisor of historial.paginador_televisores?.entities
+                    "
                     class="list-group-item"
                   >
                     {{ televisor.ubicacion }}
                   </li>
                 </ul>
               </div>
+            </div>
+            <div class="row justify-content-center mt-3">
+              <app-paginacion-pequenia
+                (emitir_evento_del_paginador)="
+                  capturar_evento($event, historial)
+                "
+                [paginador]="historial?.paginador_televisores"
+                [entities_total]="historial?.televisores"
+                [cantidad_por_pagina]="cantidad_por_pagina"
+              ></app-paginacion-pequenia>
             </div>
           </div>
         </div>
@@ -105,3 +129,8 @@
     </div>
   </div>
 </div>
+
+<!-- *ngIf="
+                  historial?.televisores?.length > 0 ||
+                  paginador?.total_de_paginas > 1
+                " -->

@@ -1,6 +1,18 @@
 <app-navbar></app-navbar>
 <div class="container mt-3">
-  <h1>Cliente: {{ cliente?.nombre }}</h1>
+  <div class="row">
+    <div class="col-2">
+      <button
+        [routerLink]="['/cliente/detalles', cliente?.id]"
+        class="btn btn-sm btn-outline-primary"
+      >
+        <i class="fas fa-arrow-left"></i>
+      </button>
+    </div>
+    <div class="col-8">
+      <h1>Cliente: {{ cliente?.nombre }}</h1>
+    </div>
+  </div>
   <hr />
   <div class="card text-center">
     <div class="card-body">

@@ -18,7 +18,7 @@ import { CompartirEventoService } from '../../services/compartir-evento.service'
   templateUrl: './imagenes.component.html',
   styles: [],
 })
-export class ImagenesComponent implements OnInit, AfterViewChecked {
+export class ImagenesComponent implements OnInit {
   forma: FormGroup;
   multimedias_total: Multimedia[] = [];
   paginador: Paginador;
@@ -34,10 +34,15 @@ export class ImagenesComponent implements OnInit, AfterViewChecked {
   ) {
     this.multimediasEscogidas = new EventEmitter();
   }
-  ngAfterViewChecked(): void {
-    this.compartirEventoService.emitir_evento.subscribe((paginador) => {
-      this.paginador = paginador;
-    });
+  // ngAfterViewChecked(): void {
+  //   // this.compartirEventoService.emitir_evento.subscribe((paginador) => {
+  //   //   this.paginador = paginador;
+  //   // });
+  //   this.cdRef.detectChanges();
+  // }
+
+  public capturarEvento(paginador) {
+    this.paginador = paginador;
     this.cdRef.detectChanges();
   }
 

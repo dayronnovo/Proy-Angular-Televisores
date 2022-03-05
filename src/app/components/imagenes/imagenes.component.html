@@ -56,6 +56,7 @@
         [entities_total]="multimedias_total"
         [paginador]="paginador"
         [cantidad_por_pagina]="cantidad_por_pagina"
+        (emitir_evento_del_paginador)="capturarEvento($event)"
       ></app-paginacion-pequenia>
     </div>
   </div>

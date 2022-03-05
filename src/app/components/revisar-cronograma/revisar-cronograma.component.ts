@@ -1,10 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { CronogramaService } from '../../services/cronograma.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HistorialCronograma } from '../../models/historial_cronograma';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ClienteService } from '../../services/cliente.service';
 import { Cliente } from '../../models/cliente';
+import { Paginador } from '../shared/paginacion_pequenia/paginador';
+import { CompartirEventoService } from '../../services/compartir-evento.service';
 
 @Component({
   selector: 'app-revisar-cronograma',
@@ -13,7 +15,7 @@ import { Cliente } from '../../models/cliente';
 })
 export class RevisarCronogramaComponent implements OnInit {
   historialCronograma: HistorialCronograma[] = [];
-  actualReproduciendo: HistorialCronograma;
+  // actualReproduciendo: HistorialCronograma;
   paginador: any;
   ruta: string = null;
   // cliente_id: number;
@@ -21,17 +23,33 @@ export class RevisarCronogramaComponent implements OnInit {
   fechaActual: string = new Date().toISOString().split('T')[0];
   forma: FormGroup;
 
+  // Paginador
+  paginador_pequenio: Paginador;
+  cantidad_por_pagina: number = 1;
+
   constructor(
     private cronogramaService: CronogramaService,
     private clienteService: ClienteService,
     private activatedRoute: ActivatedRoute,
     private fb: FormBuilder,
-    private router: Router
+    private router: Router,
+    private compartirEventoService: CompartirEventoService,
+    private cdRef: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
     this.crearFormulario();
     this.getClienteById();
+  }
+
+  // ngAfterViewChecked(): void {
+  //   this.capturar_evento()
+  // }
+
+  public capturar_evento(paginador, historial) {
+    console.log(paginador);
+    historial.paginador_televisores = paginador;
+    this.cdRef.detectChanges();
   }
 
   crearFormulario() {
@@ -64,6 +82,7 @@ export class RevisarCronogramaComponent implements OnInit {
           this.forma.getRawValue()
         )
         .subscribe((data) => {
+          // console.log(data);
           this.historialCronograma = data.historiales;
           this.paginador = data.pageable;
         });
