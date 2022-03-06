@@ -97,7 +97,8 @@
                 <ul class="list-group list-group-flush">
                   <li
                     *ngFor="
-                      let televisor of historial.paginador_televisores?.entities
+                      let televisor of historial?.televisores_pagination
+                        .televisores
                     "
                     class="list-group-item"
                   >
@@ -106,31 +107,31 @@
                 </ul>
               </div>
             </div>
+            <!-- Paginacion de los televisores -->
             <div class="row justify-content-center mt-3">
               <app-paginacion-pequenia
+                *ngIf="historial?.televisores_pagination.pageable"
+                [paginador]="historial?.televisores_pagination.pageable"
                 (emitir_evento_del_paginador)="
-                  capturar_evento($event, historial)
+                  getTelevisoresByhistorialIdWithPagination($event, historial)
                 "
-                [paginador]="historial?.paginador_televisores"
-                [entities_total]="historial?.televisores"
-                [cantidad_por_pagina]="cantidad_por_pagina"
               ></app-paginacion-pequenia>
             </div>
           </div>
         </div>
       </div>
-    </div>
-    <div class="row justify-content-center mt-4">
-      <app-paginacion
-        *ngIf="paginador && ruta"
-        [paginador]="paginador"
-        [componente]="ruta"
-      ></app-paginacion>
+      <div class="row justify-content-center mt-4">
+        <app-paginacion
+          *ngIf="paginador && ruta"
+          [paginador]="paginador"
+          [componente]="ruta"
+        ></app-paginacion>
+      </div>
     </div>
   </div>
-</div>
 
-<!-- *ngIf="
+  <!-- *ngIf="
                   historial?.televisores?.length > 0 ||
                   paginador?.total_de_paginas > 1
                 " -->
+</div>

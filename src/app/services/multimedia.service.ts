@@ -41,7 +41,10 @@ export class MultimediaService {
     return this.http.get(`${this.urlEndPoint}/videos/${id}`);
   }
 
-  public getMultimediasByClienteId(id: number): Observable<any> {
-    return this.http.get(`${this.urlEndPoint}/cliente/${id}`);
+  public getMultimediasByClienteIdWidthPagination(
+    id: number,
+    page: number
+  ): Observable<any> {
+    return this.http.get(`${this.urlEndPoint}/cliente/${id}/${page}`);
   }
 }

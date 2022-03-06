@@ -1,16 +1,13 @@
-<!-- <div *ngIf="multimedias.length == 0" class="alert alert-warning" role="alert">
+<div *ngIf="multimedias.length == 0" class="alert alert-warning" role="alert">
   No tiene Multimedias.
-</div> -->
-<div class="card animated fadeIn">
+</div>
+<div *ngIf="multimedias.length > 0" class="card animated fadeIn">
   <div class="card-header text-center">Multimedias</div>
   <div class="card-body">
     <div class="card">
-      <ul
-        *ngIf="paginador?.entities.length > 0"
-        class="list-group list-group-flush"
-      >
+      <ul *ngIf="multimedias?.length > 0" class="list-group list-group-flush">
         <li
-          *ngFor="let multimedia of paginador?.entities; let i = index"
+          *ngFor="let multimedia of multimedias; let i = index"
           class="list-group-item"
         >
           <form [formGroup]="forma">
@@ -52,11 +49,9 @@
 
     <div class="row justify-content-center mt-3">
       <app-paginacion-pequenia
-        *ngIf="multimedias_total?.length > 0 || paginador?.total_de_paginas > 1"
-        [entities_total]="multimedias_total"
-        [paginador]="paginador"
-        [cantidad_por_pagina]="cantidad_por_pagina"
-        (emitir_evento_del_paginador)="capturarEvento($event)"
+        *ngIf="paginador_multimedias"
+        [paginador]="paginador_multimedias"
+        (emitir_evento_del_paginador)="getMultimediasByClienteId($event)"
       ></app-paginacion-pequenia>
     </div>
   </div>

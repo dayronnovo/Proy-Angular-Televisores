@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Cliente } from '../../models/cliente';
 import { ClienteService } from '../../services/cliente.service';
 import { ActivatedRoute } from '@angular/router';
@@ -7,8 +7,6 @@ import { Televisor } from '../../models/televisores';
 import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { Multimedia } from '../../models/multimedia';
 import { CronogramaService } from '../../services/cronograma.service';
-import { Paginador } from '../shared/paginacion_pequenia/paginador';
-import { CompartirEventoService } from '../../services/compartir-evento.service';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -20,19 +18,15 @@ export class CronogramaComponent implements OnInit {
   cliente: Cliente;
   formad: FormGroup;
   multimedias: any[] = [];
-  televisores_total: Televisor[] = [];
-
-  cantidad_por_pagina: number = 3;
-  paginadores: Paginador[] = [];
-  paginador: Paginador;
+  televisores: Televisor[] = [];
+  paginador_televisor: any;
 
   constructor(
     private activatedRoute: ActivatedRoute,
     private clienteService: ClienteService,
     private televisorService: TelevisorService,
     private cronogramaService: CronogramaService,
-    private fb: FormBuilder,
-    private compartirEventoService: CompartirEventoService
+    private fb: FormBuilder
   ) {}
 
   ngOnInit(): void {
@@ -49,19 +43,20 @@ export class CronogramaComponent implements OnInit {
       let cliente_id = params['cliente_id'];
       this.clienteService.getClienteById(cliente_id).subscribe((response) => {
         this.cliente = response;
-        this.getTelevisoresByClienteId();
+        this.getTelevisoresByClienteId(null);
       });
     });
   }
 
-  public getTelevisoresByClienteId() {
+  public getTelevisoresByClienteId(pagina) {
     this.televisorService
-      .getTelevisoresByClienteId(this.cliente.id)
+      .getTelevisoresByClienteIdWithPagination(
+        this.cliente.id,
+        pagina ? pagina : 1
+      )
       .subscribe((response) => {
-        this.televisores_total = response as Televisor[];
-        // Paginador
-        this.crearPaginador();
-        this.inicializarPaginador();
+        this.televisores = response.televisores as Televisor[];
+        this.paginador_televisor = response.pageable;
       });
   }
 
@@ -179,41 +174,41 @@ export class CronogramaComponent implements OnInit {
   }
 
   // Metodos para el Paginador
-  public crearPaginador() {
-    let total_de_entities: number = this.televisores_total.length;
-    let total_de_paginas: number = Math.ceil(
-      total_de_entities / this.cantidad_por_pagina
-    );
+  // public crearPaginador() {
+  //   let total_de_entities: number = this.televisores_total.length;
+  //   let total_de_paginas: number = Math.ceil(
+  //     total_de_entities / this.cantidad_por_pagina
+  //   );
 
-    for (let cont = 1; cont <= total_de_paginas; cont++) {
-      let entities: any[] = [];
-      for (let cont2 = 0; cont2 < this.cantidad_por_pagina; cont2++) {
-        let entity = this.televisores_total.shift();
-        if (entity) entities.push(entity);
-      }
-      this.paginadores.push(
-        new Paginador(
-          cont,
-          entities,
-          total_de_entities,
-          total_de_paginas,
-          cont == 1,
-          cont == total_de_paginas
-        )
-      );
-    }
-  }
+  //   for (let cont = 1; cont <= total_de_paginas; cont++) {
+  //     let entities: any[] = [];
+  //     for (let cont2 = 0; cont2 < this.cantidad_por_pagina; cont2++) {
+  //       let entity = this.televisores_total.shift();
+  //       if (entity) entities.push(entity);
+  //     }
+  //     this.paginadores.push(
+  //       new Paginador(
+  //         cont,
+  //         entities,
+  //         total_de_entities,
+  //         total_de_paginas,
+  //         cont == 1,
+  //         cont == total_de_paginas
+  //       )
+  //     );
+  //   }
+  // }
 
-  public inicializarPaginador() {
-    this.paginador = this.paginadores[0];
-  }
+  // public inicializarPaginador() {
+  //   this.paginador = this.paginadores[0];
+  // }
 
-  public paginaAnterior(): void {
-    let index = this.paginadores.indexOf(this.paginador);
-    this.paginador = this.paginadores[index - 1];
-  }
-  public paginaSiguiente(): void {
-    let index = this.paginadores.indexOf(this.paginador);
-    this.paginador = this.paginadores[index + 1];
-  }
+  // public paginaAnterior(): void {
+  //   let index = this.paginadores.indexOf(this.paginador);
+  //   this.paginador = this.paginadores[index - 1];
+  // }
+  // public paginaSiguiente(): void {
+  //   let index = this.paginadores.indexOf(this.paginador);
+  //   this.paginador = this.paginadores[index + 1];
+  // }
 }

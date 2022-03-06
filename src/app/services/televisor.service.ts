@@ -69,4 +69,11 @@ export class TelevisorService {
         })
       );
   }
+
+  public getTelevisoresByhistorialIdWithPagination(
+    id: number,
+    page: number
+  ): Observable<any> {
+    return this.http.get(`${this.urlEndPoint}/historial/${id}/${page}`);
+  }
 }

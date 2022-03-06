@@ -7,6 +7,8 @@ import { ClienteService } from '../../services/cliente.service';
 import { Cliente } from '../../models/cliente';
 import { Paginador } from '../shared/paginacion_pequenia/paginador';
 import { CompartirEventoService } from '../../services/compartir-evento.service';
+import { Televisor } from '../../models/televisores';
+import { TelevisorService } from '../../services/televisor.service';
 
 @Component({
   selector: 'app-revisar-cronograma',
@@ -23,12 +25,15 @@ export class RevisarCronogramaComponent implements OnInit {
   fechaActual: string = new Date().toISOString().split('T')[0];
   forma: FormGroup;
 
-  // Paginador
+  // Paginador de los televisores
   paginador_pequenio: Paginador;
   cantidad_por_pagina: number = 1;
+  paginadores: Paginador[] = [];
+  televisores_total: Televisor[] = [];
 
   constructor(
     private cronogramaService: CronogramaService,
+    private televisorService: TelevisorService,
     private clienteService: ClienteService,
     private activatedRoute: ActivatedRoute,
     private fb: FormBuilder,
@@ -42,19 +47,13 @@ export class RevisarCronogramaComponent implements OnInit {
     this.getClienteById();
   }
 
-  // ngAfterViewChecked(): void {
-  //   this.capturar_evento()
+  // public capturar_evento(paginador, historial) {
+  //   historial.paginador_televisores = paginador;
+  //   this.cdRef.detectChanges();
   // }
-
-  public capturar_evento(paginador, historial) {
-    console.log(paginador);
-    historial.paginador_televisores = paginador;
-    this.cdRef.detectChanges();
-  }
 
   crearFormulario() {
     this.forma = this.fb.group({
-      // fecha: ['2022-02-22', Validators.required],
       fecha: [new Date().toISOString().split('T')[0], Validators.required],
     });
   }
@@ -70,7 +69,6 @@ export class RevisarCronogramaComponent implements OnInit {
   }
 
   public getProgramacion() {
-    console.log('GetProgramacion');
     this.activatedRoute.params.subscribe((params) => {
       let page = params['page'];
       if (!page) page = 0;
@@ -82,8 +80,8 @@ export class RevisarCronogramaComponent implements OnInit {
           this.forma.getRawValue()
         )
         .subscribe((data) => {
-          // console.log(data);
           this.historialCronograma = data.historiales;
+          console.log(this.historialCronograma);
           this.paginador = data.pageable;
         });
     });
@@ -119,45 +117,20 @@ export class RevisarCronogramaComponent implements OnInit {
         )
         .subscribe((data) => {
           this.historialCronograma = data.historiales;
+          console.log(this.historialCronograma);
           this.paginador = data.pageable;
         });
     }
-
-    // console.log('BuscarPorFecha');
-    // this.router.navigate(['/historial', this.cliente.id, 'page', 1]);
-    // this.cronogramaService
-    //   .getCronogramaByClienteIdWithPagination(
-    //     this.cliente.id,
-    //     1,
-    //     this.forma.getRawValue()
-    //   )
-    //   .subscribe((data) => {
-    //     this.historialCronograma = data.historiales;
-    //     this.paginador = data.pageable;
-    //   });
   }
 
-  // public reproduciendoActualmente(
-  //   cronograma: HistorialCronograma,
-  //   index
-  // ): boolean {
-  //   let horaActual = new Date();
-  //   let hora_actual_string = `${horaActual.getHours()}:${
-  //     horaActual.getMinutes().toString().length == 1
-  //       ? `0${horaActual.getMinutes()}`
-  //       : `${horaActual.getMinutes()}`
-  //   }`;
-
-  //   let historialSiguiente =
-  //     this.historialCronograma[index + 1]?.hora_de_inicio;
-
-  //   if (historialSiguiente) {
-  //     return (
-  //       hora_actual_string > cronograma?.hora_de_inicio &&
-  //       hora_actual_string < historialSiguiente
-  //     );
-  //   } else {
-  //     return hora_actual_string > cronograma?.hora_de_inicio;
-  //   }
-  // }
+  public getTelevisoresByhistorialIdWithPagination(
+    page: number,
+    historial: HistorialCronograma
+  ): void {
+    this.televisorService
+      .getTelevisoresByhistorialIdWithPagination(historial.id, page)
+      .subscribe((response) => {
+        historial.televisores_pagination = response;
+      });
+  }
 }

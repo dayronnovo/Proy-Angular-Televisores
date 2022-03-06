@@ -66,6 +66,7 @@ export class NgDropFilesDirective {
       this.validarTipoDeArchivo(archivo.type) &&
       this.validarTamanioDeArhivo(archivo)
     ) {
+      console.log('VAlidacion');
       return true;
     } else return false;
   }
@@ -120,23 +121,20 @@ export class NgDropFilesDirective {
       return result;
     }
 
-    if (result) result = this.validarExtensionDeVideo(tipoArchivo);
+    if (tipoArchivo.startsWith('video'))
+      result = this.validarExtensionDeVideo(tipoArchivo);
     return result;
   }
 
   private validarExtensionDeVideo(tipoArchivo) {
-    if (tipoArchivo.startsWith('video')) {
-      let extension = tipoArchivo.split('/')[1];
-      let re = this.extensiones_videos_permitidas.includes(extension);
-      if (!re) {
-        this.emitir_error_de_validacion(
-          'Los formatos de video permitidos son MP4, WEBM y OGG'
-        );
-      }
-      return re;
-    } else {
-      return false;
+    let extension = tipoArchivo.split('/')[1];
+    let re = this.extensiones_videos_permitidas.includes(extension);
+    if (!re) {
+      this.emitir_error_de_validacion(
+        'Los formatos de video permitidos son MP4, WEBM y OGG'
+      );
     }
+    return re;
   }
 
   public emitir_error_de_validacion(mensaje) {

@@ -1,9 +1,9 @@
-<ul class="pagination">
+<ul *ngIf="paginador?.totalPages > 1" class="pagination">
   <!-- << Pasar a la pagina anterior -->
 
   <li
     class="page-item"
-    [ngClass]="paginador?.primera_pagina ? 'disabled page-item' : 'page-item'"
+    [ngClass]="!paginador?.has_prev ? 'disabled page-item' : 'page-item'"
   >
     <a class="page-link mouse" (click)="paginaAnterior()">&laquo;</a>
   </li>
@@ -12,7 +12,7 @@
 
   <li
     class="page-item"
-    [ngClass]="paginador?.ultima_pagina ? 'disabled page-item' : 'page-item'"
+    [ngClass]="!paginador?.has_next ? 'disabled page-item' : 'page-item'"
   >
     <a class="page-link mouse" (click)="paginaSiguiente()">&raquo;</a>
   </li>

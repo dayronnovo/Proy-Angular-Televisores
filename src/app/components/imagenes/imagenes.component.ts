@@ -20,17 +20,14 @@ import { CompartirEventoService } from '../../services/compartir-evento.service'
 })
 export class ImagenesComponent implements OnInit {
   forma: FormGroup;
-  multimedias_total: Multimedia[] = [];
-  paginador: Paginador;
-  cantidad_por_pagina: number = 3;
+  multimedias: Multimedia[] = [];
+  paginador_multimedias: any;
   @Output() multimediasEscogidas: EventEmitter<any>;
 
   constructor(
     private multimediaService: MultimediaService,
     private activatedRoute: ActivatedRoute,
-    private fb: FormBuilder,
-    private compartirEventoService: CompartirEventoService,
-    private cdRef: ChangeDetectorRef
+    private fb: FormBuilder
   ) {
     this.multimediasEscogidas = new EventEmitter();
   }
@@ -41,24 +38,25 @@ export class ImagenesComponent implements OnInit {
   //   this.cdRef.detectChanges();
   // }
 
-  public capturarEvento(paginador) {
-    this.paginador = paginador;
-    this.cdRef.detectChanges();
-  }
+  // public capturarEvento(paginador) {
+  //   this.paginador = paginador;
+  //   this.cdRef.detectChanges();
+  // }
 
   ngOnInit(): void {
     this.crearFormulario();
-    this.getMultimediasByClienteId();
+    this.getMultimediasByClienteId(null);
   }
 
-  public getMultimediasByClienteId() {
+  public getMultimediasByClienteId(page) {
     this.activatedRoute.params.subscribe((params) => {
       let cliente_id = params['cliente_id'];
 
       this.multimediaService
-        .getMultimediasByClienteId(cliente_id)
+        .getMultimediasByClienteIdWidthPagination(cliente_id, page ? page : 1)
         .subscribe((response) => {
-          this.multimedias_total = response as Multimedia[];
+          this.multimedias = response.multimedias as Multimedia[];
+          this.paginador_multimedias = response.pageable;
         });
     });
   }
@@ -89,20 +87,6 @@ export class ImagenesComponent implements OnInit {
       });
       return;
     }
-
-    // console.log(this.forma.getRawValue()['multimedias']);
-    let horaForm: number = this.forma.getRawValue()['hora'];
-    console.log(horaForm);
-    let horaActual: Date = new Date();
-    let hora = horaActual.getHours();
-    let minuto = horaActual.getMinutes();
-    console.log(`${hora}:${minuto}`);
-
-    // console.log(this.forma.getRawValue()['multimedias']);
-
-    // this.televisorService
-    //   .update_multimedias(this.id_televisor, this.forma.getRawValue())
-    //   .subscribe((data) => {});
   }
 
   public marcarElCheckboxes(option): boolean {
@@ -122,7 +106,7 @@ export class ImagenesComponent implements OnInit {
 
   public marcarTodo() {
     this.desmarcarTodo();
-    this.paginador.entities.forEach((multimedia) => {
+    this.multimedias.forEach((multimedia) => {
       this.getIdsFormArray.push(this.fb.control(multimedia));
     });
   }
@@ -133,7 +117,6 @@ export class ImagenesComponent implements OnInit {
     } else {
       let arreglo: any[] = this.getIdsFormArray.getRawValue();
 
-      // this.getIdsFormArray.removeAt(num);
       arreglo.forEach((multimedia_id) => {
         if (multimedia_id == option.id) {
           let num: number = arreglo.indexOf(multimedia_id);

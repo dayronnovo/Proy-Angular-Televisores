@@ -8,5 +8,5 @@ export class HistorialCronograma {
   time_id: number;
   multimedias: Multimedia[];
   televisores: Televisor[];
-  paginador_televisores?: Paginador = null;
+  televisores_pagination?: any;
 }
