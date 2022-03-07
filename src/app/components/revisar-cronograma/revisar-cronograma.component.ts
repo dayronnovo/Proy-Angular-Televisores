@@ -46,7 +46,6 @@ export class RevisarCronogramaComponent implements OnInit {
   ngOnInit(): void {
     this.crearFormulario();
     this.getClienteById();
-    console.log(this.fechaActual);
   }
 
   // public capturar_evento(paginador, historial) {
@@ -83,7 +82,6 @@ export class RevisarCronogramaComponent implements OnInit {
         )
         .subscribe((data) => {
           this.historialCronograma = data.historiales;
-          console.log(this.historialCronograma);
           this.paginador = data.pageable;
         });
     });
