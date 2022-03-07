@@ -1,65 +1,56 @@
-import {
-  Component,
-  OnInit,
-  Output,
-  EventEmitter,
-  AfterViewChecked,
-  ChangeDetectorRef,
-} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { Multimedia } from '../../models/multimedia';
-import { FormGroup, FormBuilder, FormArray, Validators } from '@angular/forms';
 import { MultimediaService } from '../../services/multimedia.service';
 import { ActivatedRoute } from '@angular/router';
-import { Paginador } from '../shared/paginacion_pequenia/paginador';
-import { CompartirEventoService } from '../../services/compartir-evento.service';
+import { Cliente } from '../../models/cliente';
+import { ClienteService } from '../../services/cliente.service';
+import Swal from 'sweetalert2';
 
 @Component({
-  selector: 'app-imagenes',
-  templateUrl: './imagenes.component.html',
-  styles: [],
+  selector: 'app-eliminar-multimedias',
+  templateUrl: './eliminar-multimedias.component.html',
+  styleUrls: ['./eliminar-multimedias.component.css'],
 })
-export class ImagenesComponent implements OnInit {
+export class EliminarMultimediasComponent implements OnInit {
   forma: FormGroup;
   multimedias: Multimedia[] = [];
   paginador_multimedias: any;
-  @Output() multimediasEscogidas: EventEmitter<any>;
+  cliente: Cliente;
 
   constructor(
     private multimediaService: MultimediaService,
+    private clienteService: ClienteService,
     private activatedRoute: ActivatedRoute,
     private fb: FormBuilder
-  ) // private cdf: ChangeDetectorRef
-  {
-    this.multimediasEscogidas = new EventEmitter();
-  }
-  // ngAfterViewChecked(): void {
-  //   // this.compartirEventoService.emitir_evento.subscribe((paginador) => {
-  //   //   this.paginador = paginador;
-  //   // });
-  //   this.cdRef.detectChanges();
-  // }
-
-  // public capturarEvento(paginador) {
-  //   this.paginador = paginador;
-  //   this.cdRef.detectChanges();
-  // }
+  ) {}
 
   ngOnInit(): void {
     this.crearFormulario();
-    this.getMultimediasByClienteId(null);
+    this.getClienteById();
   }
 
-  public getMultimediasByClienteId(page) {
+  public getClienteById(): void {
     this.activatedRoute.params.subscribe((params) => {
       let cliente_id = params['cliente_id'];
 
-      this.multimediaService
-        .getMultimediasByClienteIdWidthPagination(cliente_id, page ? page : 1)
-        .subscribe((response) => {
-          this.multimedias = response.multimedias as Multimedia[];
-          this.paginador_multimedias = response.pageable;
-        });
+      this.clienteService.getClienteById(cliente_id).subscribe((response) => {
+        this.cliente = response;
+        this.getMultimediasByClienteId(null);
+      });
     });
+  }
+
+  public getMultimediasByClienteId(page) {
+    this.multimediaService
+      .getMultimediasByClienteIdWidthPagination(
+        this.cliente.id,
+        page ? page : 1
+      )
+      .subscribe((response) => {
+        this.multimedias = response.multimedias as Multimedia[];
+        this.paginador_multimedias = response.pageable;
+      });
   }
 
   verArchivo(id: number): string {
@@ -88,6 +79,30 @@ export class ImagenesComponent implements OnInit {
       });
       return;
     }
+
+    Swal.fire({
+      title: '¿Esta seguro?',
+      text: '¿Esta seguro de eliminar estas multimedias?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Si, eliminar',
+      cancelButtonText: 'No, cancelar',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.multimediaService
+          .deleteMultimediasByIds(this.forma.getRawValue())
+          .subscribe((response) => {
+            this.getMultimediasByClienteId(null);
+            Swal.fire(
+              'Borrado',
+              'Las multimedias fueron eliminadas satisfactoriamente.',
+              'success'
+            );
+          });
+      }
+    });
   }
 
   public marcarElCheckboxes(option): boolean {
@@ -125,7 +140,6 @@ export class ImagenesComponent implements OnInit {
         }
       });
     }
-    this.multimediasEscogidas.emit(this.getIdsFormArray.getRawValue());
   }
 
   public validar(campo: string): boolean {

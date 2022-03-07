@@ -38,10 +38,13 @@ export class VisualizarMultimediasComponent implements OnInit {
             this.multimedias.length != response.length
           ) {
             this.multimedias = response;
+            console.log('no hay nada');
           } else {
             if (!this.equal(this.multimedias, response)) {
               this.multimedias = response;
+              console.log('no son iguales');
             }
+            console.log('son iguales');
           }
           // console.log(response);
           // console.log(this.multimedias);

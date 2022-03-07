@@ -1,0 +1,82 @@
+<app-navbar></app-navbar>
+<div
+  *ngIf="multimedias.length == 0"
+  class="alert alert-warning mt-3"
+  role="alert"
+>
+  No tiene Multimedias.
+</div>
+<div class="container mt-3" *ngIf="multimedias.length > 0">
+  <h3>Multimedias del cliente: {{ cliente?.nombre }}</h3>
+
+  <div class="card animated fadeIn">
+    <div class="card-header text-center">Eliminar Multimedias</div>
+    <div class="card-body">
+      <div class="card">
+        <ul *ngIf="multimedias?.length > 0" class="list-group list-group-flush">
+          <li
+            *ngFor="let multimedia of multimedias; let i = index"
+            class="list-group-item"
+          >
+            <form [formGroup]="forma">
+              <div class="custom-control custom-checkbox mr-sm-2">
+                <input
+                  type="checkbox"
+                  class="custom-control-input"
+                  [id]="getLabelAndFor(multimedia)"
+                  [value]="multimedia"
+                  [checked]="marcarElCheckboxes(multimedia)"
+                  (change)="onCheckboxChange(multimedia, $event, i)"
+                />
+                <label
+                  class="custom-control-label"
+                  [for]="getLabelAndFor(multimedia)"
+                >
+                  <img
+                    *ngIf="multimedia.tipo_archivo.startsWith('image')"
+                    [src]="verArchivo(multimedia.id)"
+                    alt=""
+                    style="width: 164px; cursor: pointer"
+                  />
+                  <div *ngIf="multimedia.tipo_archivo.startsWith('video')">
+                    <video
+                      style="width: 180px; cursor: pointer"
+                      controls
+                      poster="assets\images\icono_video.png"
+                    >
+                      <source [src]="verArchivo(multimedia.id) | domSeguro" />
+                      Tu navegador no soporta vídeo
+                    </video>
+                  </div>
+                </label>
+              </div>
+            </form>
+          </li>
+        </ul>
+      </div>
+
+      <div class="row justify-content-center mt-3">
+        <app-paginacion-pequenia
+          *ngIf="paginador_multimedias"
+          [paginador]="paginador_multimedias"
+          (emitir_evento_del_paginador)="getMultimediasByClienteId($event)"
+        ></app-paginacion-pequenia>
+      </div>
+    </div>
+  </div>
+  <div class="row justify-content-center mt-3">
+    <button class="btn btn-danger" (click)="salvar()" type="submit">
+      Eliminar
+    </button>
+  </div>
+</div>
+
+<div class="col-12">
+  <pre>
+  Estado del Formulario: {{ forma.valid }}
+  Status: {{ forma.status }}
+  </pre>
+  <pre>
+  {{ forma.value | json }}
+  </pre>
+</div>

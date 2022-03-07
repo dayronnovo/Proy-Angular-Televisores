@@ -86,11 +86,17 @@
     </div>
   </div>
   <div class="row mt-2 justify-content-center">
-    <button (click)="guardar()" class="btn btn-primary">Done</button>
+    <button
+      [disabled]="formad.invalid"
+      (click)="guardar()"
+      class="btn btn-primary"
+    >
+      Done
+    </button>
   </div>
 </div>
 
-<!-- <div class="col-12">
+<div class="col-12">
   <pre>
   Estado del Formulario: {{ formad.valid }}
   Status: {{ formad.status }}
@@ -98,4 +104,4 @@
   <pre>
   {{ formad.value | json }}
   </pre>
-</div> -->
+</div>

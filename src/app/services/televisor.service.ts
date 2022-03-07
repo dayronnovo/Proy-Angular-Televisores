@@ -17,6 +17,10 @@ export class TelevisorService {
 
   constructor(private http: HttpClient) {}
 
+  public getTelevisorById(id: number): Observable<Televisor> {
+    return this.http.get<Televisor>(`${this.urlEndPoint}/${id}`);
+  }
+
   // Lo uso CronogramaComponent
   public getTelevisorAndClienteByTelevisorId(
     id: number

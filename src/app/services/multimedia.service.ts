@@ -13,6 +13,9 @@ import { Multimedia } from '../models/multimedia';
 })
 export class MultimediaService {
   private urlEndPoint = 'http://localhost:5000/multimedia';
+  private httpHeader: HttpHeaders = new HttpHeaders({
+    'Content-Type': 'application/json',
+  });
 
   constructor(private http: HttpClient) {}
 
@@ -46,5 +49,9 @@ export class MultimediaService {
     page: number
   ): Observable<any> {
     return this.http.get(`${this.urlEndPoint}/cliente/${id}/${page}`);
+  }
+
+  public deleteMultimediasByIds(ids): Observable<any> {
+    return this.http.put(`${this.urlEndPoint}/delete`, ids);
   }
 }

@@ -1,0 +1,17 @@
+<app-navbar></app-navbar>
+
+<div class="container mt-3">
+  <div class="row justify-content-center">
+    <!-- Aki poner algo -->
+    <h3>Multimedias del Televisor: {{ televisor?.ubicacion }}</h3>
+  </div>
+
+  <div *ngIf="multimedias.length == 0" class="alert alert-warning" role="alert">
+    No tiene multimedias.
+  </div>
+  <div *ngIf="multimedias.length > 0" class="card-columns">
+    <div *ngFor="let multimedia of multimedias" class="card">
+      <img [src]="verArchivo(multimedia.id)" class="card-img-top" alt="..." />
+    </div>
+  </div>
+</div>

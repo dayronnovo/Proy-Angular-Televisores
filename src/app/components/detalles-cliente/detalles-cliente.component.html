@@ -17,12 +17,20 @@
 
   <div *ngIf="televisores.length > 0">
     <div class="row justify-content-around mb-4">
-      <button
-        class="btn btn-primary"
-        [routerLink]="['/multimedia/cliente', cliente?.id]"
-      >
-        Agregar Multimedias
-      </button>
+      <div>
+        <button
+          class="btn btn-primary"
+          [routerLink]="['/multimedia/cliente', cliente?.id]"
+        >
+          Agregar Multimedias
+        </button>
+        <button
+          class="btn btn-primary ml-2"
+          [routerLink]="['/cliente/multimedia/delete', cliente?.id]"
+        >
+          Eliminar Multimedias
+        </button>
+      </div>
       <button
         class="btn btn-primary ml-1"
         [routerLink]="['/historial', cliente?.id, 'page', 0]"

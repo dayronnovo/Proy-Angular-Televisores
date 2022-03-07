@@ -4,7 +4,13 @@ import { ClienteService } from '../../services/cliente.service';
 import { ActivatedRoute } from '@angular/router';
 import { TelevisorService } from '../../services/televisor.service';
 import { Televisor } from '../../models/televisores';
-import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
+import {
+  FormGroup,
+  FormBuilder,
+  Validators,
+  FormArray,
+  FormControl,
+} from '@angular/forms';
 import { Multimedia } from '../../models/multimedia';
 import { CronogramaService } from '../../services/cronograma.service';
 import Swal from 'sweetalert2';
@@ -64,7 +70,15 @@ export class CronogramaComponent implements OnInit {
   private crearFormulario() {
     this.formad = this.fb.group({
       televisores: this.fb.array([], Validators.required),
+      multimedias: this.fb.array([], Validators.required),
       hora: [],
+    });
+  }
+
+  private establecerValoresEnElFormulario(multimedias: any[]): void {
+    this.getMultimediasIdsFormArray.clear();
+    multimedias.forEach((multimedia) => {
+      this.getMultimediasIdsFormArray.push(new FormControl(multimedia));
     });
   }
 
@@ -82,13 +96,17 @@ export class CronogramaComponent implements OnInit {
   get getIdsFormArray(): FormArray {
     return this.formad.get('televisores') as FormArray;
   }
+  get getMultimediasIdsFormArray(): FormArray {
+    return this.formad.get('multimedias') as FormArray;
+  }
 
   public guardar() {
     if (this.formad.invalid) {
       Object.values(this.formad.controls).forEach((control) => {
         control.markAsTouched();
       });
-      // return;
+      console.log(this.formad.getRawValue());
+      return;
     }
 
     let horaActual: Date = new Date();
@@ -99,18 +117,18 @@ export class CronogramaComponent implements OnInit {
     let milisegundos = this.calcularDiferenciaDeHoras(hora_actual, hora_inicio);
 
     let timeId = setTimeout(() => {
-      console.log('Se ejecuto');
       this.televisorService
         .update_multimedias(
           this.getIdsFormArray.getRawValue(),
-          this.multimedias
+          this.getMultimediasIdsFormArray.getRawValue()
         )
         .subscribe((data) => {});
     }, milisegundos);
 
     let programacion = {
-      hora_de_inicio: hora_inicio,
-      multimedias: this.multimedias,
+      hora_de_inicio: hora_inicio == 'null' ? hora_actual : hora_inicio,
+      // multimedias: this.multimedias,
+      multimedias: this.getMultimediasIdsFormArray.getRawValue(),
       time_id: timeId,
       televisores: this.getIdsFormArray.getRawValue(),
       cliente: this.cliente.id,
@@ -134,9 +152,11 @@ export class CronogramaComponent implements OnInit {
     return diferencia * 60 * 1000;
   }
 
-  public getMultimediasDesdeImagenesComponent(multimedias: Multimedia[]) {
-    this.multimedias = multimedias;
-    // console.log(this.multimedias);
+  public getMultimediasDesdeImagenesComponent(multimedias: any[]) {
+    // this.multimedias = multimedias;
+    // this.getMultimediasIdsFormArray.getRawValue() = multimedias;
+    // this.getMultimediasIdsFormArray.setValue(multimedias);
+    this.establecerValoresEnElFormulario(multimedias);
   }
 
   // public desmarcarTodo() {

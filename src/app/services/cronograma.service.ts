@@ -28,4 +28,9 @@ export class CronogramaService {
     console.log(historialCronograma);
     return this.http.post(`${this.urlEndPoint}`, historialCronograma);
   }
+
+  public delete(id: number): Observable<any> {
+    console.log('Ejecutando');
+    return this.http.delete(`${this.urlEndPoint}/${id}`);
+  }
 }

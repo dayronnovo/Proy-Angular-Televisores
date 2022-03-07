@@ -11,12 +11,12 @@ import { CronogramaComponent } from './components/cronograma/cronograma.componen
 import { ImagenesComponent } from './components/imagenes/imagenes.component';
 import { VideosComponent } from './components/videos/videos.component';
 import { RevisarCronogramaComponent } from './components/revisar-cronograma/revisar-cronograma.component';
-import { MultimediaDelTelevisorComponent } from './components/multimedias_televisor/multimedia-del-televisor/multimedia-del-televisor.component';
-import { MultimediasActualesComponent } from './components/multimedias_televisor/multimedias-actuales/multimedias-actuales.component';
+import { MultimediaDelTelevisorComponent } from './components/multimedia-del-televisor/multimedia-del-televisor.component';
 import { CrearClienteComponent } from './components/Forms/cliente/crear-cliente/crear-cliente.component';
 import { UpdateClienteComponent } from './components/Forms/cliente/update-cliente/update-cliente.component';
 import { CrearTelevisorComponent } from './components/Forms/televisor/crear-televisor/crear-televisor.component';
 import { UpdateTelevisorComponent } from './components/Forms/televisor/update-televisor/update-televisor.component';
+import { EliminarMultimediasComponent } from './components/eliminar-multimedias/eliminar-multimedias.component';
 
 const routes: Routes = [
   { path: 'clientes', component: ClientesComponent },
@@ -48,11 +48,6 @@ const routes: Routes = [
   {
     path: 'multimedias/televisor/:televisor_id',
     component: MultimediaDelTelevisorComponent,
-    children: [
-      { path: 'actual', component: MultimediasActualesComponent },
-      // { path: 'sinuso', component: VideosComponent },
-      { path: '**', pathMatch: 'full', redirectTo: 'actual' },
-    ],
   },
   {
     path: 'cliente/create',
@@ -69,6 +64,10 @@ const routes: Routes = [
   {
     path: 'televisor/update/:televisor_id',
     component: UpdateTelevisorComponent,
+  },
+  {
+    path: 'cliente/multimedia/delete/:cliente_id',
+    component: EliminarMultimediasComponent,
   },
   { path: '**', pathMatch: 'full', redirectTo: 'clientes' },
   // { path: '**', component: PageNotFoundComponent },

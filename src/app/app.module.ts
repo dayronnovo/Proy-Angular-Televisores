@@ -25,9 +25,8 @@ import { VideosComponent } from './components/videos/videos.component';
 import { RevisarCronogramaComponent } from './components/revisar-cronograma/revisar-cronograma.component';
 
 import { SwiperModule } from 'swiper/angular';
-import { MultimediaDelTelevisorComponent } from './components/multimedias_televisor/multimedia-del-televisor/multimedia-del-televisor.component';
+import { MultimediaDelTelevisorComponent } from './components/multimedia-del-televisor/multimedia-del-televisor.component';
 import { ModalComponent } from './components/shared/modal/modal.component';
-import { MultimediasActualesComponent } from './components/multimedias_televisor/multimedias-actuales/multimedias-actuales.component';
 import { CrearClienteComponent } from './components/Forms/cliente/crear-cliente/crear-cliente.component';
 import { UpdateClienteComponent } from './components/Forms/cliente/update-cliente/update-cliente.component';
 import { ShareFormClienteComponent } from './components/Forms/cliente/share-form-cliente/share-form-cliente.component';
@@ -35,6 +34,7 @@ import { CrearTelevisorComponent } from './components/Forms/televisor/crear-tele
 import { UpdateTelevisorComponent } from './components/Forms/televisor/update-televisor/update-televisor.component';
 import { ShareFormTelevisorComponent } from './components/Forms/televisor/share-form-televisor/share-form-televisor.component';
 import { PaginacionPequeniaComponent } from './components/shared/paginacion_pequenia/paginacion_pequenia.component';
+import { EliminarMultimediasComponent } from './components/eliminar-multimedias/eliminar-multimedias.component';
 
 @NgModule({
   declarations: [
@@ -54,7 +54,6 @@ import { PaginacionPequeniaComponent } from './components/shared/paginacion_pequ
     RevisarCronogramaComponent,
     MultimediaDelTelevisorComponent,
     ModalComponent,
-    MultimediasActualesComponent,
     CrearClienteComponent,
     UpdateClienteComponent,
     ShareFormClienteComponent,
@@ -62,6 +61,7 @@ import { PaginacionPequeniaComponent } from './components/shared/paginacion_pequ
     UpdateTelevisorComponent,
     ShareFormTelevisorComponent,
     PaginacionPequeniaComponent,
+    EliminarMultimediasComponent,
   ],
   imports: [
     BrowserModule,

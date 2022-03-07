@@ -9,6 +9,7 @@ import { Paginador } from '../shared/paginacion_pequenia/paginador';
 import { CompartirEventoService } from '../../services/compartir-evento.service';
 import { Televisor } from '../../models/televisores';
 import { TelevisorService } from '../../services/televisor.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-revisar-cronograma',
@@ -45,6 +46,7 @@ export class RevisarCronogramaComponent implements OnInit {
   ngOnInit(): void {
     this.crearFormulario();
     this.getClienteById();
+    console.log(this.fechaActual);
   }
 
   // public capturar_evento(paginador, historial) {
@@ -87,8 +89,29 @@ export class RevisarCronogramaComponent implements OnInit {
     });
   }
 
-  public eliminarReproduccion(timeId) {
-    clearTimeout(timeId);
+  public eliminarReproduccion(historial) {
+    Swal.fire({
+      title: '¿Esta seguro?',
+      text: '¿Esta seguro de eliminar un historial?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Si, eliminar',
+      cancelButtonText: 'No, cancelar',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        clearTimeout(historial.timeId);
+        this.cronogramaService.delete(historial.id).subscribe((response) => {
+          this.getProgramacion();
+          Swal.fire(
+            'Borrado',
+            'El historial fue eliminado satisfactoriamente',
+            'success'
+          );
+        });
+      }
+    });
   }
 
   public compararFechaAndHora(historial: HistorialCronograma): boolean {
