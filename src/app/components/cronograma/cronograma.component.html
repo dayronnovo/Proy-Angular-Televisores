@@ -1,5 +1,6 @@
 <app-navbar></app-navbar>
-<div class="container mt-3">
+<ngx-spinner></ngx-spinner>
+<div class="container mt-3 animated fadeIn">
   <div class="row">
     <div class="col-2">
       <button
@@ -46,7 +47,8 @@
         </div>
         <div class="col-6">
           <!-- Aqui van a estar los televisores -->
-          <div class="card text-center">
+          <div class="card text-center" style="position: relative">
+            <ngx-spinner [fullScreen]="false"></ngx-spinner>
             <div class="card-header">Televisores</div>
             <div class="card-body">
               <div *ngFor="let televisor of televisores" class="col-auto my-1">

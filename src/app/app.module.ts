@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FeatureRoutingModule } from './app-routing.module';
 import { ReactiveFormsModule } from '@angular/forms';
 
@@ -24,7 +24,6 @@ import { ImagenesComponent } from './components/imagenes/imagenes.component';
 import { VideosComponent } from './components/videos/videos.component';
 import { RevisarCronogramaComponent } from './components/revisar-cronograma/revisar-cronograma.component';
 
-import { SwiperModule } from 'swiper/angular';
 import { MultimediaDelTelevisorComponent } from './components/multimedia-del-televisor/multimedia-del-televisor.component';
 import { ModalComponent } from './components/shared/modal/modal.component';
 import { CrearClienteComponent } from './components/Forms/cliente/crear-cliente/crear-cliente.component';
@@ -35,6 +34,8 @@ import { UpdateTelevisorComponent } from './components/Forms/televisor/update-te
 import { ShareFormTelevisorComponent } from './components/Forms/televisor/share-form-televisor/share-form-televisor.component';
 import { PaginacionPequeniaComponent } from './components/shared/paginacion_pequenia/paginacion_pequenia.component';
 import { EliminarMultimediasComponent } from './components/eliminar-multimedias/eliminar-multimedias.component';
+import { NgxSpinnerModule } from 'ngx-spinner';
+import { LoadingInterceptor } from './interceptors/loading';
 
 @NgModule({
   declarations: [
@@ -72,9 +73,11 @@ import { EliminarMultimediasComponent } from './components/eliminar-multimedias/
     MatFormFieldModule,
     MatInputModule,
     MatSelectModule,
-    SwiperModule,
+    NgxSpinnerModule,
   ],
-  providers: [],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

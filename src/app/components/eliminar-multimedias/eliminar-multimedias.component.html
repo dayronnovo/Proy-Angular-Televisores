@@ -1,17 +1,19 @@
 <app-navbar></app-navbar>
+<ngx-spinner></ngx-spinner>
 <div
-  *ngIf="multimedias.length == 0"
+  *ngIf="multimedias.length == 0 && cargador"
   class="alert alert-warning mt-3"
   role="alert"
 >
   No tiene Multimedias.
 </div>
-<div class="container mt-3" *ngIf="multimedias.length > 0">
+<div class="container mt-3 animated fadeIn" *ngIf="multimedias.length > 0">
   <h3>Multimedias del cliente: {{ cliente?.nombre }}</h3>
 
   <div class="card animated fadeIn">
     <div class="card-header text-center">Eliminar Multimedias</div>
-    <div class="card-body">
+    <div class="card-body" style="position: relative">
+      <ngx-spinner [fullScreen]="false"></ngx-spinner>
       <div class="card">
         <ul *ngIf="multimedias?.length > 0" class="list-group list-group-flush">
           <li
@@ -71,7 +73,7 @@
   </div>
 </div>
 
-<div class="col-12">
+<!-- <div class="col-12">
   <pre>
   Estado del Formulario: {{ forma.valid }}
   Status: {{ forma.status }}
@@ -79,4 +81,4 @@
   <pre>
   {{ forma.value | json }}
   </pre>
-</div>
+</div> -->

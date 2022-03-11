@@ -12,6 +12,7 @@ import { MultimediaService } from '../../services/multimedia.service';
 import { ActivatedRoute } from '@angular/router';
 import { Paginador } from '../shared/paginacion_pequenia/paginador';
 import { CompartirEventoService } from '../../services/compartir-evento.service';
+import { LoadingService } from '../../services/loading.service';
 
 @Component({
   selector: 'app-imagenes',
@@ -23,13 +24,14 @@ export class ImagenesComponent implements OnInit {
   multimedias: Multimedia[] = [];
   paginador_multimedias: any;
   @Output() multimediasEscogidas: EventEmitter<any>;
+  cargador: boolean = false;
 
   constructor(
     private multimediaService: MultimediaService,
     private activatedRoute: ActivatedRoute,
-    private fb: FormBuilder
-  ) // private cdf: ChangeDetectorRef
-  {
+    private fb: FormBuilder,
+    private loadingService: LoadingService // private cdf: ChangeDetectorRef
+  ) {
     this.multimediasEscogidas = new EventEmitter();
   }
   // ngAfterViewChecked(): void {
@@ -45,6 +47,7 @@ export class ImagenesComponent implements OnInit {
   // }
 
   ngOnInit(): void {
+    this.loadingService.show();
     this.crearFormulario();
     this.getMultimediasByClienteId(null);
   }
@@ -58,6 +61,7 @@ export class ImagenesComponent implements OnInit {
         .subscribe((response) => {
           this.multimedias = response.multimedias as Multimedia[];
           this.paginador_multimedias = response.pageable;
+          this.cargador = true;
         });
     });
   }

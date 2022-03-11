@@ -1,5 +1,5 @@
 <app-navbar></app-navbar>
-<div class="container mt-3">
+<div class="container mt-3 animated fadeIn">
   <div class="row">
     <div class="col-2">
       <button
@@ -34,7 +34,7 @@
   <hr />
 
   <div
-    *ngIf="historialCronograma.length == 0"
+    *ngIf="historialCronograma.length == 0 && cargador"
     class="alert alert-warning"
     role="alert"
   >

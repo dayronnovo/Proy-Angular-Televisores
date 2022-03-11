@@ -26,6 +26,7 @@
     "esequal": "^0.1.15",
     "jquery": "^3.6.0",
     "moment": "^2.29.1",
+    "ngx-spinner": "^9.0.2",
     "popper.js": "^1.16.1",
     "rxjs": "~6.5.4",
     "sweetalert2": "^11.4.4",

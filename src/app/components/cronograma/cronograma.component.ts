@@ -14,6 +14,7 @@ import {
 import { Multimedia } from '../../models/multimedia';
 import { CronogramaService } from '../../services/cronograma.service';
 import Swal from 'sweetalert2';
+import { LoadingService } from '../../services/loading.service';
 
 @Component({
   selector: 'app-cronograma',
@@ -32,10 +33,12 @@ export class CronogramaComponent implements OnInit {
     private clienteService: ClienteService,
     private televisorService: TelevisorService,
     private cronogramaService: CronogramaService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private loadingService: LoadingService
   ) {}
 
   ngOnInit(): void {
+    this.loadingService.show();
     this.crearFormulario();
     this.getClienteById();
   }
@@ -49,6 +52,7 @@ export class CronogramaComponent implements OnInit {
       let cliente_id = params['cliente_id'];
       this.clienteService.getClienteById(cliente_id).subscribe((response) => {
         this.cliente = response;
+        this.loadingService.show();
         this.getTelevisoresByClienteId(null);
       });
     });

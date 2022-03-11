@@ -7,6 +7,7 @@ import { TelevisorService } from '../../services/televisor.service';
 import { Televisor } from '../../models/televisores';
 import Swal from 'sweetalert2';
 import { ClienteService } from '../../services/cliente.service';
+import { LoadingService } from '../../services/loading.service';
 
 @Component({
   selector: 'app-detalles-cliente',
@@ -18,14 +19,17 @@ export class DetallesClienteComponent implements OnInit {
   televisores: Televisor[] = [];
   paginador: any;
   ruta: string;
+  cargador: boolean = false;
 
   constructor(
     private activatedRoute: ActivatedRoute,
     private clienteService: ClienteService,
-    private televisorService: TelevisorService
+    private televisorService: TelevisorService,
+    private loadingService: LoadingService
   ) {}
 
   ngOnInit(): void {
+    this.loadingService.show();
     this.getClienteById();
   }
 
@@ -33,6 +37,7 @@ export class DetallesClienteComponent implements OnInit {
     const cliente_id = +this.activatedRoute.snapshot.params['cliente_id'];
     this.clienteService.getClienteById(cliente_id).subscribe((response) => {
       this.cliente = response;
+      this.loadingService.show();
       this.getTelevisoresByClienteId();
     });
   }
@@ -47,6 +52,7 @@ export class DetallesClienteComponent implements OnInit {
           this.televisores = response.televisores as Televisor[];
           this.paginador = response.pageable;
           this.ruta = `cliente/detalles/${this.cliente.id}`;
+          this.cargador = true;
         });
     });
   }

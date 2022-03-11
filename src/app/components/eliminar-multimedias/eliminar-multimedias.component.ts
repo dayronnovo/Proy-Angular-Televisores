@@ -6,6 +6,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Cliente } from '../../models/cliente';
 import { ClienteService } from '../../services/cliente.service';
 import Swal from 'sweetalert2';
+import { LoadingService } from '../../services/loading.service';
 
 @Component({
   selector: 'app-eliminar-multimedias',
@@ -17,15 +18,18 @@ export class EliminarMultimediasComponent implements OnInit {
   multimedias: Multimedia[] = [];
   paginador_multimedias: any;
   cliente: Cliente;
+  cargador: boolean = false;
 
   constructor(
     private multimediaService: MultimediaService,
     private clienteService: ClienteService,
     private activatedRoute: ActivatedRoute,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private loadingService: LoadingService
   ) {}
 
   ngOnInit(): void {
+    this.loadingService.show();
     this.crearFormulario();
     this.getClienteById();
   }
@@ -36,6 +40,7 @@ export class EliminarMultimediasComponent implements OnInit {
 
       this.clienteService.getClienteById(cliente_id).subscribe((response) => {
         this.cliente = response;
+        this.loadingService.show();
         this.getMultimediasByClienteId(null);
       });
     });
@@ -50,6 +55,7 @@ export class EliminarMultimediasComponent implements OnInit {
       .subscribe((response) => {
         this.multimedias = response.multimedias as Multimedia[];
         this.paginador_multimedias = response.pageable;
+        this.cargador = true;
       });
   }
 

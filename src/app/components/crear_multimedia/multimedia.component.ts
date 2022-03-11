@@ -8,6 +8,7 @@ import { FileItem } from '../../models/file_item';
 import { Cliente } from '../../models/cliente';
 import { ClienteService } from '../../services/cliente.service';
 import { CompartirEventoService } from '../../services/compartir-evento.service';
+import { LoadingService } from '../../services/loading.service';
 
 declare var $: any;
 @Component({
@@ -30,15 +31,14 @@ export class MultimediaComponent implements OnInit {
     private multimediaService: MultimediaService,
     private activatedRoute: ActivatedRoute,
     private clienteService: ClienteService,
-    private compartirEventoService: CompartirEventoService
+    private compartirEventoService: CompartirEventoService,
+    private loadingService: LoadingService
   ) {}
 
   ngOnInit(): void {
+    this.loadingService.show();
     this.getCliente();
     this.lanzar_mensaje_de_validacion();
-    // this.compartirEventoService.emitir_evento.subscribe((evento) => {
-    //   console.log(evento);
-    // });
   }
 
   public getCliente() {

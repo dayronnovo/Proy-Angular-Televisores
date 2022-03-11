@@ -1,4 +1,9 @@
-<div *ngIf="multimedias.length == 0" class="alert alert-warning" role="alert">
+<ngx-spinner></ngx-spinner>
+<div
+  *ngIf="multimedias.length == 0 && cargador"
+  class="alert alert-warning"
+  role="alert"
+>
   No tiene Multimedias.
 </div>
 <div *ngIf="multimedias.length > 0" class="card animated fadeIn">

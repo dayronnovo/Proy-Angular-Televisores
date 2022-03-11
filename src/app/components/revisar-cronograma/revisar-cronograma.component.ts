@@ -10,6 +10,7 @@ import { CompartirEventoService } from '../../services/compartir-evento.service'
 import { Televisor } from '../../models/televisores';
 import { TelevisorService } from '../../services/televisor.service';
 import Swal from 'sweetalert2';
+import { LoadingService } from '../../services/loading.service';
 
 @Component({
   selector: 'app-revisar-cronograma',
@@ -25,6 +26,7 @@ export class RevisarCronogramaComponent implements OnInit {
   cliente: Cliente;
   fechaActual: string = new Date().toISOString().split('T')[0];
   forma: FormGroup;
+  cargador: boolean = false;
 
   // Paginador de los televisores
   paginador_pequenio: Paginador;
@@ -39,11 +41,13 @@ export class RevisarCronogramaComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private fb: FormBuilder,
     private router: Router,
+    private loadingService: LoadingService,
     private compartirEventoService: CompartirEventoService,
     private cdRef: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
+    this.loadingService.show();
     this.crearFormulario();
     this.getClienteById();
   }
@@ -83,6 +87,7 @@ export class RevisarCronogramaComponent implements OnInit {
         .subscribe((data) => {
           this.historialCronograma = data.historiales;
           this.paginador = data.pageable;
+          this.cargador = true;
         });
     });
   }
