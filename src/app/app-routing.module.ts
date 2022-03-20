@@ -17,6 +17,7 @@ import { UpdateClienteComponent } from './components/Forms/cliente/update-client
 import { CrearTelevisorComponent } from './components/Forms/televisor/crear-televisor/crear-televisor.component';
 import { UpdateTelevisorComponent } from './components/Forms/televisor/update-televisor/update-televisor.component';
 import { EliminarMultimediasComponent } from './components/eliminar-multimedias/eliminar-multimedias.component';
+import { LoginComponent } from './components/login_logout/login/login.component';
 
 const routes: Routes = [
   { path: 'clientes', component: ClientesComponent },
@@ -68,6 +69,10 @@ const routes: Routes = [
   {
     path: 'cliente/multimedia/delete/:cliente_id',
     component: EliminarMultimediasComponent,
+  },
+  {
+    path: 'login',
+    component: LoginComponent,
   },
   { path: '**', pathMatch: 'full', redirectTo: 'clientes' },
   // { path: '**', component: PageNotFoundComponent },

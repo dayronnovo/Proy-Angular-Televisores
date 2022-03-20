@@ -36,6 +36,8 @@ import { PaginacionPequeniaComponent } from './components/shared/paginacion_pequ
 import { EliminarMultimediasComponent } from './components/eliminar-multimedias/eliminar-multimedias.component';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { LoadingInterceptor } from './interceptors/loading';
+import { RegistroComponent } from './components/login_logout/registro/registro.component';
+import { LoginComponent } from './components/login_logout/login/login.component';
 
 @NgModule({
   declarations: [
@@ -63,6 +65,8 @@ import { LoadingInterceptor } from './interceptors/loading';
     ShareFormTelevisorComponent,
     PaginacionPequeniaComponent,
     EliminarMultimediasComponent,
+    RegistroComponent,
+    LoginComponent,
   ],
   imports: [
     BrowserModule,
